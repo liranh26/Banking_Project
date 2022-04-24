@@ -7,17 +7,20 @@ import accounts.AccountOwner;
 import accounts.BankManager;
 
 public class AppManager {
-
+	
+	private final int numberOfUser = 100;
 	protected AccountOwner currUser;
 	protected AccountOwner[] users;
-	protected int newUserIndex=0;
+	protected static int newUserIndex=0;
 	protected BankManager bankManager;
 	
 	public AppManager() {
+		intializeUsers();
 		bankManager = new BankManager();
+		users[newUserIndex++] = bankManager;
 	}
 
-	protected void printRegisterMenu() {
+	protected void printLoginMenu() {
 		System.out.println("Press 1 - for login,/nPress 2 - for open new account");
 	}
 
@@ -42,7 +45,7 @@ public class AppManager {
 		while(!isValid) {
 			System.out.println("Enter your "+name+" name: ");
 			input = sc.next().trim();
-			if(!input.matches("^[0-9]+$")) 
+			if(!input.matches("^[0-9]+$"))   ///////////////////////// need fix!
 				isValid = true;
 			else
 				System.out.println("No numbers allowed!, try again");
@@ -61,8 +64,8 @@ public class AppManager {
 			else
 				System.out.println("No charachters allowed!, try again");
 			sc.nextLine();
-			
-			for(int i=0; i < users.length; i++) {
+			//check if this phone number exists on the DB already
+			for(int i=0; i < newUserIndex; i++) {
 				if(input.equals(users[i].getPhone())) {
 					isValid = false;
 					System.out.println("Phone number already exists!");
@@ -73,18 +76,25 @@ public class AppManager {
 	}
 
 	
+	private void intializeUsers() {
+		users = new AccountOwner[numberOfUser];
+	}
 	
 	
+	public void login() {
+		//get pass, username
+		//send to overload
+	}
 	
+	public void login(String userName, String password) {
+		//check credentials
+		//if its ok currUser = userName from DB
+		//run option menu
+	}
 	
-//	protected int getIntFromUser(Scanner sc) {
-//		int input = sc.nextInt();
-//		return input;
-//	}
-//	
-//	protected double getDoubleFromUser(Scanner sc) {
-//		double input = sc.nextDouble();
-//		return input;
-//	}
+	public void login(String phone) {
+		
+	}
+	// menu actions
 
 }

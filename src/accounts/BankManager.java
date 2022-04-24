@@ -27,6 +27,7 @@ public class BankManager extends AccountOwner {
 			//sets AccountType according to user income
 			accountProperties = AccountProperties.getAccountType(usersToApprove[approvalIndex].getMounthlyIncome());
 			usersToApprove[approvalIndex].account = new Account(accountProperties, 0);
+			System.out.println("New account added!");
 		}
 	}
 

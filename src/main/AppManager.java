@@ -12,7 +12,7 @@ public class AppManager {
 
 	private final int numberOfUser = 100;
 	protected AccountOwner currUser;
-	protected AccountOwner[] users;
+	protected static AccountOwner[] users; //TODO set db and actions to new class + package
 	protected static int newUserIndex = 0;
 	protected BankManager bankManager;
 	protected UserInput userInput;
@@ -59,7 +59,7 @@ public class AppManager {
 		bankManager.addUserToApprove(currUser);
 	}
 
-	public int getNumOfClients() {
+	public static int getNumOfClients() {
 		return newUserIndex;
 	}
 
@@ -124,6 +124,14 @@ public class AppManager {
 	private AccountOwner getAccountByUsername(String userName) {
 		for (int i = 0; i < getNumOfClients(); i++) {
 			if (userName.equals(users[i].getCredentials().getUserName()))
+				return users[i];
+		}
+		return null;
+	}
+	
+	public static AccountOwner getAccountByPhone(String phone) {
+		for (int i = 0; i < getNumOfClients(); i++) {
+			if (phone.equals(users[i].getPhone()))
 				return users[i];
 		}
 		return null;

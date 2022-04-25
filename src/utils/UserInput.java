@@ -110,7 +110,7 @@ public class UserInput {
 	}
 
 	private boolean isPhoneExists(AppManager app, String str) {
-		for (int i = 0; i < app.getNumOfClients(); i++) {
+		for (int i = 0; i < AppManager.getNumOfClients(); i++) {
 			if (str.equals(app.getUsers()[i].getPhone())) {
 				System.out.println("Phone number already exists!");
 				return true;
@@ -135,7 +135,7 @@ public class UserInput {
 	}
 
 	public boolean isUserNameExist(AppManager app, String str) {
-		for (int i = 0; i < app.getNumOfClients(); i++) {
+		for (int i = 0; i < AppManager.getNumOfClients(); i++) {
 			if (str.equals(app.getUsers()[i].getCredentials().getUserName()))
 				return true;
 

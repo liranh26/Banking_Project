@@ -3,6 +3,7 @@ package accounts;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import main.AppManager;
 import utils.Menus;
 import utils.ScannerInputs;
 
@@ -68,7 +69,7 @@ public class AccountOwner extends Person {
 				withdrawal();
 				break;
 			case 5:
-//				TODO Transfer funds
+				transfer();
 				break;
 			case 6:
 //				TODO Pay a bill
@@ -124,10 +125,28 @@ public class AccountOwner extends Person {
 		Menus.withdrawalSuccess();
 	}
 	
-//	protected void transfer() {
-//		System.out.println("Insert phone number:");
-//		int phone = ScannerInputs.getIntFromUser();
-//	}
+	protected void transfer() {
+		System.out.println("Insert tranfer amount:");
+		int transAmount = ScannerInputs.getIntFromUser();
+		if(transAmount > 2000) {
+			System.out.println("Exceeds valid amount!");
+			return;
+		}
+		
+		System.out.println("Insert phone number:");
+		String phoneNum = ScannerInputs.getString();
+		AccountOwner userRecieveTrans = AppManager.getAccountByPhone(phoneNum);
+		if(userRecieveTrans==null) {
+			System.out.println("User not found!");
+			return;
+		}
+		
+		bankManager.collectFee(account.getFeeOperation());
+		userRecieveTrans.account.addToBalance(transAmount);
+		account.addToBalance(transAmount*subtractAmount + account.getFeeOperation()*subtractAmount);
+		
+		System.out.println("Transfer Succeeded!");
+	}
 	
 	
 	protected void logout() {

@@ -1,36 +1,38 @@
-package main;
+package utils;
 
 import java.time.LocalDate;
+
+import main.AppManager;
 
 //TODO Need to refactor and clean the functions.
 public class UserInput {
 
-	protected String setName(String name) {
+	public String setName(String name) {
 		boolean isValid = false;
 		String input = "";
 		while (!isValid) {
 			System.out.println("Enter your " + name + " name: ");
-			input = Runner.scanner.next().trim();
+			input = ScannerInputs.scanner.next().trim();
 			if (checkForNumbers(input))
 				isValid = true;
 			else
 				System.out.println("No numbers allowed!, try again");
-			Runner.scanner.nextLine();
+			ScannerInputs.scanner.nextLine();
 		}
 		return input;
 	}
 
-	protected String setPhoneNum(AppManager app) {
+	public String setPhoneNum(AppManager app) {
 		boolean isValid = false;
 		String input = "";
 		System.out.println("Please enter phone number: ");
 		while (!isValid) {
-			input = Runner.scanner.next().trim();
+			input = ScannerInputs.scanner.next().trim();
 			if (checkForChars(input))
 				isValid = true;
 			else
 				System.out.println("No charachters allowed!, try again");
-			Runner.scanner.nextLine();
+			ScannerInputs.scanner.nextLine();
 
 			// check if this phone number exists on the DB already
 			if (isPhoneExists(app, input)) {
@@ -41,7 +43,7 @@ public class UserInput {
 		return input;
 	}
 
-	protected LocalDate setBirthdate() {
+	public LocalDate setBirthdate() {
 		// TODO Need to refactor the functions for birthdate input! they repeat.
 		int year = setBirthYear();
 		int month = setBirthMonth();
@@ -54,12 +56,12 @@ public class UserInput {
 		int input = 0, maxYear = 2021, minYear = 1900;
 		boolean isValid = false;
 		while (!isValid) {
-			input = Runner.scanner.nextInt();
+			input = ScannerInputs.scanner.nextInt();
 			if (input > maxYear || input < minYear)
 				System.out.println("Year must be between 1900-2021");
 			else
 				isValid = true;
-			Runner.scanner.nextLine();
+			ScannerInputs.scanner.nextLine();
 		}
 		return input;
 	}
@@ -69,12 +71,12 @@ public class UserInput {
 		int input = 0, maxMonth = 12, minMonth = 1;
 		boolean isValid = false;
 		while (!isValid) {
-			input = Runner.scanner.nextInt();
+			input = ScannerInputs.scanner.nextInt();
 			if (input > maxMonth || input < minMonth)
 				System.out.println("Month must be between 1-12");
 			else
 				isValid = true;
-			Runner.scanner.nextLine();
+			ScannerInputs.scanner.nextLine();
 		}
 		return input;
 	}
@@ -84,12 +86,12 @@ public class UserInput {
 		int input = 0, minDay = 1, maxDay = 31;
 		boolean isValid = false;
 		while (!isValid) {
-			input = Runner.scanner.nextInt();
+			input = ScannerInputs.scanner.nextInt();
 			if (input > maxDay || input < minDay)
 				System.out.println("Day must be between 1-31");
 			else
 				isValid = true;
-			Runner.scanner.nextLine();
+			ScannerInputs.scanner.nextLine();
 
 		}
 		return input;
@@ -109,7 +111,7 @@ public class UserInput {
 
 	private boolean isPhoneExists(AppManager app, String str) {
 		for (int i = 0; i < app.getNumOfClients(); i++) {
-			if (str.equals(app.users[i].getPhone())) {
+			if (str.equals(app.getUsers()[i].getPhone())) {
 				System.out.println("Phone number already exists!");
 				return true;
 			}
@@ -117,12 +119,12 @@ public class UserInput {
 		return false;
 	}
 
-	protected String setUserName(AppManager app) {
+	public String setUserName(AppManager app) {
 		boolean isValid = false;
 		String input = "";
 		while (!isValid) {
 			System.out.println("Enter a user name: ");
-			input = Runner.scanner.nextLine();
+			input = ScannerInputs.scanner.nextLine();
 			if (!isUserNameExist(app, input))
 				isValid = true;
 
@@ -132,16 +134,16 @@ public class UserInput {
 		return input;
 	}
 
-	protected boolean isUserNameExist(AppManager app, String str) {
+	public boolean isUserNameExist(AppManager app, String str) {
 		for (int i = 0; i < app.getNumOfClients(); i++) {
-			if (str.equals(app.users[i].getCredentials().getUserName()))
+			if (str.equals(app.getUsers()[i].getCredentials().getUserName()))
 				return true;
 
 		}
 		return false;
 	}
 
-	private boolean hasSpaces(String str) {
+	public boolean hasSpaces(String str) {
 		for (int i = 0; i < str.length(); i++) {
 			if (str.charAt(i) == ' ') {
 				System.out.println("No spaces aloud, try again");
@@ -152,12 +154,12 @@ public class UserInput {
 	}
 
 	// TODO hasChar doesnt work
-	protected String setPassWord() {
+	public String setPassWord() {
 		boolean hasChar = false, hasNum = false;
 		String input = "";
 		while (!hasChar || !hasNum) {
 			System.out.println("Enter password with 4-8 charchters, with at least 1 digit and 1 letter.");
-			input = Runner.scanner.nextLine();
+			input = ScannerInputs.scanner.nextLine();
 			if (input.length() > 8 || input.length() < 4 || !hasSpaces(input))
 				continue;
 			if (checkForChars(input))
@@ -168,26 +170,26 @@ public class UserInput {
 		return input;
 	}
 
-	protected double setIncome() {
+	public double setIncome() {
 		boolean isValid = false;
 		double income = 0;
 		while (!isValid) {
 			System.out.println("Please enter your monthly income: ");
-			income = Runner.scanner.nextDouble();
+			income = ScannerInputs.scanner.nextDouble();
 			if (income >= 0)
 				isValid = true;
-			Runner.scanner.nextLine();
+			ScannerInputs.scanner.nextLine();
 		}
 		return income;
 	}
 	
 	
-	protected String getUserName() {
+	public String getUserName() {
 		boolean isValid = false;
 		String input = "";
 		while (!isValid) {
 			System.out.println("Enter a user name: ");
-			input = Runner.scanner.nextLine();
+			input = ScannerInputs.scanner.nextLine();
 			if (!hasSpaces(input))
 				isValid = false;
 			isValid = true;

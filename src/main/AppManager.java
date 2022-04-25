@@ -4,6 +4,9 @@ import java.time.LocalDate;
 
 import accounts.AccountOwner;
 import accounts.BankManager;
+import utils.Menus;
+import utils.ScannerInputs;
+import utils.UserInput;
 
 public class AppManager {
 
@@ -21,18 +24,16 @@ public class AppManager {
 		userInput = new UserInput();
 	}
 
-	protected void printLoginMenu() {
-		System.out.println("Press 1 - for login,\nPress 2 - for open new account");
-	}
+
 
 	protected void runApp() {
 		boolean shutDown = false;
-
+		
 		System.out.println("Welcome to AJBC Bank!");
+
 		while (!shutDown) {
-			printLoginMenu();
-			int option = Runner.scanner.nextInt();
-			Runner.scanner.nextLine();
+			Menus.startMenu();
+			int option = ScannerInputs.getIntFromUser();
 			switch (option) {
 			case 1:
 				login();
@@ -41,7 +42,7 @@ public class AppManager {
 				openAccount();
 				break;
 			default:
-				System.out.println("please choose 1 or 2 from the menu");
+				Menus.defaultMessege();
 			}
 		}
 	}
@@ -60,14 +61,13 @@ public class AppManager {
 		bankManager.addUserToApprove(currUser);
 	}
 
-	protected int getNumOfClients() {
+	public int getNumOfClients() {
 		return newUserIndex;
 	}
 
 	public void login() {
-		System.out.println("For login via user name enter 1. \nFor login via phone enter 2.");
-		int option = Runner.scanner.nextInt();
-		Runner.scanner.nextLine();
+		Menus.loginMenu();
+		int option = ScannerInputs.getIntFromUser();
 		switch (option) {
 		case 1:
 			loginViaUserName();
@@ -76,10 +76,11 @@ public class AppManager {
 			loginViaPhone();
 			break;
 		default:
-			System.out.println("please choose 1 or 2 from the menu");
+			Menus.defaultMessege();
 		}
 	}
 
+	
 	public void loginViaUserName() {
 		boolean userNameValid = false;
 		int passAttempet = 0;
@@ -98,7 +99,7 @@ public class AppManager {
 		}
 
 		while (passAttempet != 3) {
-			String password = Runner.scanner.nextLine();
+			String password = ScannerInputs.scanner.nextLine();
 			if (password.equals(getAccountByUsername(userName).getCredentials().getPassword()))
 				break;
 			passAttempet++;
@@ -129,6 +130,10 @@ public class AppManager {
 				return users[i];
 		}
 		return null;
+	}
+
+	public AccountOwner[] getUsers() {
+		return users;
 	}
 	
 	

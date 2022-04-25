@@ -2,7 +2,7 @@ package accounts;
 
 import java.time.LocalDate;
 
-import main.Runner;
+import utils.ScannerInputs;
 
 public class AccountOwner extends Person {
 	protected double mounthlyIncome;
@@ -44,8 +44,8 @@ public class AccountOwner extends Person {
 		System.out.println("Welcome "+this.getFirstName()+" what would you like to do?");
 		while(option!=8) {
 			printActionMenu();
-			option = Runner.scanner.nextInt();
-			Runner.scanner.nextLine();
+			option = ScannerInputs.scanner.nextInt();
+			ScannerInputs.scanner.nextLine();
 			switch(option) {
 			case 1:
 //				TODO Check Account balance

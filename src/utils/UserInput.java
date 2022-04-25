@@ -1,6 +1,7 @@
 package utils;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 import main.AppManager;
 
@@ -196,5 +197,13 @@ public class UserInput {
 		}
 		return input;
 	}
+	
+	
+	public static int getAuthNum() {
+		Random random = new Random();
+		int authCode = random.nextInt(1000, 9999);
+		return authCode;
+	}
+	
 	
 }

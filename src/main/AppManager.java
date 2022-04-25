@@ -24,11 +24,9 @@ public class AppManager {
 		userInput = new UserInput();
 	}
 
-
-
 	protected void runApp() {
 		boolean shutDown = false;
-		
+
 		System.out.println("Welcome to AJBC Bank!");
 
 		while (!shutDown) {
@@ -42,7 +40,7 @@ public class AppManager {
 				openAccount();
 				break;
 			default:
-				Menus.defaultMessege();
+				Menus.defaultMessage();
 			}
 		}
 	}
@@ -76,11 +74,10 @@ public class AppManager {
 			loginViaPhone();
 			break;
 		default:
-			Menus.defaultMessege();
+			Menus.defaultMessage();
 		}
 	}
 
-	
 	public void loginViaUserName() {
 		boolean userNameValid = false;
 		int passAttempet = 0;
@@ -112,17 +109,15 @@ public class AppManager {
 
 		System.out.println("Login succesed!");
 		currUser = getAccountByUsername(userName);
-		
-		//TODO UserAction class -> menu and options.
+
+		// TODO UserAction class -> menu and options.
 		currUser.actionMenu();
 	}
 
-	
 	public void loginViaPhone() {
-		//TODO complete this method
+		// TODO complete this method
 	}
 
-	
 	// gets a valid! user name
 	private AccountOwner getAccountByUsername(String userName) {
 		for (int i = 0; i < getNumOfClients(); i++) {
@@ -135,8 +130,5 @@ public class AppManager {
 	public AccountOwner[] getUsers() {
 		return users;
 	}
-	
-	
 
-	
 }

@@ -39,11 +39,6 @@ public class BankManager extends AccountOwner {
 		super.actionMenu();
 	}
 
-	@Override
-	protected void printActionMenu() {
-		// TODO Auto-generated method stub
-		super.printActionMenu();
-	}
 	
 	
 

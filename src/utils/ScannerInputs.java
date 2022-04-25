@@ -12,5 +12,10 @@ public class ScannerInputs {
 		return num;
 	}
 	
+	public static double getDoubleFromUser() {
+		double num = ScannerInputs.scanner.nextDouble();
+		ScannerInputs.scanner.nextLine();
+		return num;
+	}
 	
 }

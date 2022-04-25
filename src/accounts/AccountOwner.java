@@ -2,13 +2,16 @@ package accounts;
 
 import java.time.LocalDate;
 
+import utils.Menus;
 import utils.ScannerInputs;
+import utils.UserInput;
 
 public class AccountOwner extends Person {
 	protected double mounthlyIncome;
 	protected Account account;
 	protected Credentials credentials;
-	// to identify finished registration option to add a flag when account approved, or use != null 
+	// to identify finished registration option to add a flag when account approved,
+	// or use != null
 
 	public AccountOwner(String firstName, String lastName, String phone, LocalDate birthdate, double income,
 			String userName, String password) {
@@ -40,15 +43,15 @@ public class AccountOwner extends Person {
 	}
 
 	public void actionMenu() {
-		int option=0;
-		System.out.println("Welcome "+this.getFirstName()+" what would you like to do?");
-		while(option!=8) {
-			printActionMenu();
+		int option = 0;
+		System.out.println("Welcome " + this.getFirstName() + " what would you like to do?");
+		while (option != 8) {
+			Menus.actionMenu();
 			option = ScannerInputs.scanner.nextInt();
 			ScannerInputs.scanner.nextLine();
-			switch(option) {
+			switch (option) {
 			case 1:
-//				TODO Check Account balance
+				checkBalance();
 				break;
 			case 2:
 //				TODO Produce activity report
@@ -62,27 +65,40 @@ public class AccountOwner extends Person {
 			case 5:
 //				TODO Transfer funds
 				break;
-			case 6: 
+			case 6:
 //				TODO Pay a bill
 				break;
-			case 7: 
+			case 7:
 //				TODO Get a loan
 				break;
 			case 8:
 //				TODO LOGOUT
 				break;
 			default:
-				System.out.println("Enter valid input.");	
-				
+				Menus.defaultMessage();
+
 			}
 		}
 	}
-	
-	protected void printActionMenu() {
-		System.out.println("Please select desired action:");
-		System.out.println("1. Check Account balance\n" + "2. Produce activity report\n" + "3. Make a deposit\n" + "4. Make a withdrawal\n"
-				+ "5. Transfer funds\n" + "6. Pay a bill\n" + "7. Get a loan\n" + "8. Logout");
+
+	protected void checkBalance() {
+		Menus.printBalance(account.getBalance());
+		actionMenu();
 	}
-	
+
+	protected void deposit() {
+		int authCode = UserInput.getAuthNum();
+		Menus.authCodeMessage(authCode);
+		int input = ScannerInputs.getIntFromUser();
+		if (input == authCode) {
+			double depositAmount = ScannerInputs.getDoubleFromUser();
+			double curBalance = account.getBalance();
+			account.setBalance(depositAmount + curBalance);
+			Menus.depositSuccess();
+		} else
+			Menus.depositFail();
+
+		actionMenu();
+	}
 
 }

@@ -8,14 +8,16 @@ public class Account {
 	protected AccountProperties accountProperties;
 	private static int idCounter = 1;
 	private final int ACCOUNT_ID;
-	protected ActivityData[] activityLog; // TODO complete!
+	protected ActivityData[] activityLog;
 	private static int logIndex;
 	private final int recordNumOfActivites = 100;
 	protected double feeOperation;
 	protected double interstRate;
 	private static LocalDateTime lastWithdrawal;
 	private static int dailyWithraw;
-
+	protected double loanMonthlyPayment;
+	protected int loanLeftMonths;
+	
 	public Account(AccountProperties accountProperties, double balance) {
 		this.accountProperties = accountProperties;
 		setBalance(balance);
@@ -24,6 +26,8 @@ public class Account {
 		logIndex = 0;
 		dailyWithraw = accountProperties.maxWithdraw;
 		lastWithdrawal = LocalDateTime.now();
+		loanMonthlyPayment=0;
+		loanLeftMonths=0;
 	}
 
 	public double getBalance() {
@@ -80,4 +84,30 @@ public class Account {
 
 	}
 
+	
+	protected double calcMonthlyPaymentForLoan(int loan, int numOfMonth) {
+		double mounthlyAmount = loan / numOfMonth;
+		mounthlyAmount *=  (interstRate/100);
+		return mounthlyAmount;
+	}
+	
+
+	protected double getLoanMonthlyPayment() {
+		return loanMonthlyPayment;
+	}
+
+	protected void setLoanMonthlyPayment(double loanMonthlyPayment) {
+		this.loanMonthlyPayment = loanMonthlyPayment;
+	}
+
+	protected int getLoanLeftMonths() {
+		return loanLeftMonths;
+	}
+
+	protected void setLoanLeftMonths(int loanLeftMonths) {
+		this.loanLeftMonths = loanLeftMonths;
+	}
+
+
+	
 }

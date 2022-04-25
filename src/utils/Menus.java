@@ -5,12 +5,15 @@ import accounts.ActivityData;
 public class Menus {
 
 	public static void startMenu() {
+		System.out.println("------------------------------");
 		System.out.println("Press 1 - for login,\nPress 2 - for open new account");
+		System.out.println("------------------------------");
 	}
 
 	public static void loginMenu() {
+		System.out.println("------------------------------");
 		System.out.println("For login via user name enter 1. \nFor login via phone enter 2.");
-
+		System.out.println("------------------------------");
 	}
 
 	public static void defaultMessage() {
@@ -59,12 +62,19 @@ public class Menus {
 		System.out.println("At date: " + activity.getTimeStamp() + ", you did a "
 				+ activity.getActivityName().toString().toLowerCase() + ", and the balance was: "
 				+ activity.getBalanceChange());
-		
+
 	}
-	
+
 	public static void withdrawalSuccess() {
 		System.out.println("------------------------------");
 		System.out.println("Successfuly withdrawal the money! Enjoy.");
+		System.out.println("------------------------------");
+	}
+
+	public static void billMenu() {
+		System.out.println("------------------------------");
+		System.out.println("Choose which bill would you like to pay from the menu.");
+		System.out.println("1. Loan\n" + "2. Phone\n" + "3. Water\n" + "4. Electric\n");
 		System.out.println("------------------------------");
 	}
 

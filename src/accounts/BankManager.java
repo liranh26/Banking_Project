@@ -19,6 +19,7 @@ public class BankManager extends AccountOwner {
 		usersToApprove = new AccountOwner[100];
 		approvalIndex = 0;
 		setAccount(new Account(AccountProperties.TITANIUM, 0));
+		account.setBalance(1000000);
 	}
 
 	public void addUserToApprove(AccountOwner newUser) {
@@ -42,6 +43,8 @@ public class BankManager extends AccountOwner {
 	protected void collectFee(double fee) {
 		account.addToBalance(fee);
 	}
+	
+	
 
 	@Override
 	public void actionMenu() {

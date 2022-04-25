@@ -2,6 +2,8 @@ package accounts;
 
 import java.time.LocalDate;
 
+import main.Runner;
+
 public class AccountOwner extends Person {
 	protected double mounthlyIncome;
 	protected Account account;
@@ -32,7 +34,55 @@ public class AccountOwner extends Person {
 	public Account getAccount() {
 		return account;
 	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	public void actionMenu() {
+		int option=0;
+		System.out.println("Welcome "+this.getFirstName()+" what would you like to do?");
+		while(option!=8) {
+			printActionMenu();
+			option = Runner.scanner.nextInt();
+			Runner.scanner.nextLine();
+			switch(option) {
+			case 1:
+//				TODO Check Account balance
+				break;
+			case 2:
+//				TODO Produce activity report
+				break;
+			case 3:
+//				TODO Make a deposit
+				break;
+			case 4:
+//				TODO Make a withdrawal
+				break;
+			case 5:
+//				TODO Transfer funds
+				break;
+			case 6: 
+//				TODO Pay a bill
+				break;
+			case 7: 
+//				TODO Get a loan
+				break;
+			case 8:
+//				TODO LOGOUT
+				break;
+			default:
+				System.out.println("Enter valid input.");	
+				
+			}
+		}
+	}
 	
+	protected void printActionMenu() {
+		System.out.println("Please select desired action:");
+		System.out.println("1. Check Account balance\n" + "2. Produce activity report\n" + "3. Make a deposit\n" + "4. Make a withdrawal\n"
+				+ "5. Transfer funds\n" + "6. Pay a bill\n" + "7. Get a loan\n" + "8. Logout");
+	}
 	
 
 }

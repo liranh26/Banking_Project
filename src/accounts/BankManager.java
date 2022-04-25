@@ -15,6 +15,7 @@ public class BankManager extends AccountOwner {
 		super(firstName, lastName, phone, birthdate, income, userName, password);
 		usersToApprove = new AccountOwner[100];
 		approvalIndex = 0;
+		setAccount(new Account(AccountProperties.TITANIUM, 0));
 	}
 
 	public void addUserToApprove(AccountOwner newUser) {
@@ -31,5 +32,19 @@ public class BankManager extends AccountOwner {
 		}
 		approvalIndex = 0;
 	}
+
+	@Override
+	public void actionMenu() {
+		// TODO Auto-generated method stub
+		super.actionMenu();
+	}
+
+	@Override
+	protected void printActionMenu() {
+		// TODO Auto-generated method stub
+		super.printActionMenu();
+	}
+	
+	
 
 }

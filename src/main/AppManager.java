@@ -15,7 +15,7 @@ public class AppManager {
 	protected UserInput userInput;
 
 	public AppManager() {
-		intializeUsers();
+		users = new AccountOwner[numberOfUser];
 		bankManager = new BankManager();
 		users[newUserIndex++] = bankManager;
 		userInput = new UserInput();
@@ -58,10 +58,6 @@ public class AppManager {
 		currUser = new AccountOwner(firstName, lastName, phone, birthdate, income, userName, password);
 		users[newUserIndex++] = currUser;
 		bankManager.addUserToApprove(currUser);
-	}
-
-	private void intializeUsers() {
-		users = new AccountOwner[numberOfUser];
 	}
 
 	protected int getNumOfClients() {
@@ -117,9 +113,10 @@ public class AppManager {
 		currUser = getAccountByUsername(userName);
 		
 		//TODO UserAction class -> menu and options.
+		currUser.actionMenu();
 	}
 
-	// overloading for login via phone
+	
 	public void loginViaPhone() {
 		//TODO complete this method
 	}
@@ -133,4 +130,8 @@ public class AppManager {
 		}
 		return null;
 	}
+	
+	
+
+	
 }

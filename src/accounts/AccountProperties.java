@@ -17,36 +17,37 @@ public enum AccountProperties {
 		this.maxWithdraw = maxWithdraw;
 		this.minFee = minFee;
 		this.minInterstRate = minInterstRate;
-		
-		setFeeOperation();
-		setInterstRate();
+
+		if (minFee != 0) {
+			setFeeOperation();
+			setInterstRate();
+		}
 	}
-	
+
 	static AccountProperties getAccountType(double income) {
-		if(income <10000)
+		if (income < 10000)
 			return BRONZE;
-		else if(income<20000)
+		else if (income < 20000)
 			return SILVER;
 		return GOLD;
 	}
-	
-	private void setInterstRate(){
+
+	private void setInterstRate() {
 		Random random = new Random();
-		//get a random number between the range of min and max
-		double rand =random.doubles(minInterstRate, maxInterstRate).findFirst().getAsDouble();
-		//set 2 numbers after the point
-		rand = (Math.round(rand*100.0)/100.0);
+		// get a random number between the range of min and max
+		double rand = random.doubles(minInterstRate, maxInterstRate).findFirst().getAsDouble();
+		// set 2 numbers after the point
+		rand = (Math.round(rand * 100.0) / 100.0);
 		this.interstRate = rand;
 	}
-	
-	private void setFeeOperation(){
-		//get a random number between the range of min and max
+
+	private void setFeeOperation() {
+		// get a random number between the range of min and max
 		Random random = new Random();
-		//set 2 numbers after the point
-		double rand =random.doubles(minFee, maxFee).findFirst().getAsDouble();
-		rand = (Math.round(rand*100.0)/100.0);
+		// set 2 numbers after the point
+		double rand = random.doubles(minFee, maxFee).findFirst().getAsDouble();
+		rand = (Math.round(rand * 100.0) / 100.0);
 		this.feeOperation = rand;
 	}
-	
-	
+
 }

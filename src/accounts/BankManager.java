@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class BankManager extends AccountOwner {
 	protected AccountOwner[] usersToApprove;
-	protected int approvalIndex;
+	private static int approvalIndex;
 
 	public BankManager() {
 		this("Liran", "Hadad", "0545332205", LocalDate.of(1990, 2, 26), 20000, "manager", "aA1234");
@@ -13,7 +13,7 @@ public class BankManager extends AccountOwner {
 	public BankManager(String firstName, String lastName, String phone, LocalDate birthdate, double income,
 			String userName, String password) {
 		super(firstName, lastName, phone, birthdate, income, userName, password);
-		
+		usersToApprove = new AccountOwner[100];
 		approvalIndex = 0;
 	}
 
@@ -29,6 +29,7 @@ public class BankManager extends AccountOwner {
 			usersToApprove[approvalIndex].account = new Account(accountProperties, 0);
 			System.out.println("New account added!");
 		}
+		approvalIndex = 0;
 	}
 
 }

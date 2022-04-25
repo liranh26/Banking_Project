@@ -28,6 +28,10 @@ public class AccountOwner extends Person {
 	public Credentials getCredentials() {
 		return credentials;
 	}
+
+	public Account getAccount() {
+		return account;
+	}
 	
 	
 

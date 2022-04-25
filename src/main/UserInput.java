@@ -5,7 +5,7 @@ import java.time.LocalDate;
 //TODO Need to refactor and clean the functions.
 public class UserInput {
 
-	protected String getName(String name) {
+	protected String setName(String name) {
 		boolean isValid = false;
 		String input = "";
 		while (!isValid) {
@@ -19,8 +19,8 @@ public class UserInput {
 		}
 		return input;
 	}
-	
-	protected String getPhoneNum(AppManager app) {
+
+	protected String setPhoneNum(AppManager app) {
 		boolean isValid = false;
 		String input = "";
 		System.out.println("Please enter phone number: ");
@@ -33,21 +33,23 @@ public class UserInput {
 			Runner.scanner.nextLine();
 
 			// check if this phone number exists on the DB already
-			if (isPhoneExists(app, input))
+			if (isPhoneExists(app, input)) {
+				System.out.println("User name already exists!, try again.");
 				isValid = false;
+			}
 		}
 		return input;
 	}
 
-	protected LocalDate getBirthdate() {
+	protected LocalDate setBirthdate() {
 		// TODO Need to refactor the functions for birthdate input! they repeat.
-		int year = getBirthYear();
-		int month = getBirthMonth();
-		int day = getBirthDay();
+		int year = setBirthYear();
+		int month = setBirthMonth();
+		int day = setBirthDay();
 		return LocalDate.of(year, month, day);
 	}
 
-	protected int getBirthYear() {
+	protected int setBirthYear() {
 		System.out.println("Please enter your birth year: ");
 		int input = 0, maxYear = 2021, minYear = 1900;
 		boolean isValid = false;
@@ -62,7 +64,7 @@ public class UserInput {
 		return input;
 	}
 
-	protected int getBirthMonth() {
+	protected int setBirthMonth() {
 		System.out.println("Please enter your birth year: ");
 		int input = 0, maxMonth = 12, minMonth = 1;
 		boolean isValid = false;
@@ -77,7 +79,7 @@ public class UserInput {
 		return input;
 	}
 
-	protected int getBirthDay() {
+	protected int setBirthDay() {
 		System.out.println("Please enter your birth Day: ");
 		int input = 0, minDay = 1, maxDay = 31;
 		boolean isValid = false;
@@ -115,7 +117,7 @@ public class UserInput {
 		return false;
 	}
 
-	protected String getUserName(AppManager app) {
+	protected String setUserName(AppManager app) {
 		boolean isValid = false;
 		String input = "";
 		while (!isValid) {
@@ -130,12 +132,11 @@ public class UserInput {
 		return input;
 	}
 
-	private boolean isUserNameExist(AppManager app, String str) {
+	protected boolean isUserNameExist(AppManager app, String str) {
 		for (int i = 0; i < app.getNumOfClients(); i++) {
-			if (str.equals(app.users[i].getCredentials().getUserName())) {
-				System.out.println("User name already exists!, try again.");
+			if (str.equals(app.users[i].getCredentials().getUserName()))
 				return true;
-			}
+
 		}
 		return false;
 	}
@@ -149,8 +150,9 @@ public class UserInput {
 		}
 		return true;
 	}
-	//TODO hasChar doesnt work
-	protected String getPassWord() {
+
+	// TODO hasChar doesnt work
+	protected String setPassWord() {
 		boolean hasChar = false, hasNum = false;
 		String input = "";
 		while (!hasChar || !hasNum) {
@@ -166,7 +168,7 @@ public class UserInput {
 		return input;
 	}
 
-	protected double getIncome() {
+	protected double setIncome() {
 		boolean isValid = false;
 		double income = 0;
 		while (!isValid) {
@@ -176,5 +178,18 @@ public class UserInput {
 		}
 		return income;
 	}
-
+	
+	
+	protected String getUserName() {
+		boolean isValid = false;
+		String input = "";
+		while (!isValid) {
+			System.out.println("Enter a user name: ");
+			input = Runner.scanner.nextLine();
+			if (!hasSpaces(input))
+				isValid = false;
+		}
+		return input;
+	}
+	
 }

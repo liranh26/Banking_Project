@@ -149,9 +149,12 @@ public class AccountOwner extends Person {
 	}
 	
 	
+	
 	protected void logout() {
 		System.out.println("GoodBye!");
 	}
+	
+	
 	
 
 }

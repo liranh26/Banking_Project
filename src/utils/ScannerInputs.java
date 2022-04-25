@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class ScannerInputs {
@@ -16,6 +17,12 @@ public class ScannerInputs {
 		double num = ScannerInputs.scanner.nextDouble();
 		ScannerInputs.scanner.nextLine();
 		return num;
+	}
+	
+	public static int getAuthNum() {
+		Random random = new Random();
+		int authCode = random.nextInt(1000, 9999);
+		return authCode;
 	}
 	
 }

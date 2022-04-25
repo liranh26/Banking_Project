@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import utils.Menus;
 import utils.ScannerInputs;
-import utils.UserInput;
 
 public class AccountOwner extends Person {
 	protected double mounthlyIncome;
@@ -57,7 +56,7 @@ public class AccountOwner extends Person {
 //				TODO Produce activity report
 				break;
 			case 3:
-//				TODO Make a deposit
+				deposit();
 				break;
 			case 4:
 //				TODO Make a withdrawal
@@ -87,7 +86,7 @@ public class AccountOwner extends Person {
 	}
 
 	protected void deposit() {
-		int authCode = UserInput.getAuthNum();
+		int authCode = ScannerInputs.getAuthNum();
 		Menus.authCodeMessage(authCode);
 		int input = ScannerInputs.getIntFromUser();
 		if (input == authCode) {

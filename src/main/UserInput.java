@@ -65,7 +65,7 @@ public class UserInput {
 	}
 
 	protected int setBirthMonth() {
-		System.out.println("Please enter your birth year: ");
+		System.out.println("Please enter your birth month: ");
 		int input = 0, maxMonth = 12, minMonth = 1;
 		boolean isValid = false;
 		while (!isValid) {
@@ -172,9 +172,11 @@ public class UserInput {
 		boolean isValid = false;
 		double income = 0;
 		while (!isValid) {
+			System.out.println("Please enter your monthly income: ");
 			income = Runner.scanner.nextDouble();
 			if (income >= 0)
 				isValid = true;
+			Runner.scanner.nextLine();
 		}
 		return income;
 	}
@@ -188,6 +190,7 @@ public class UserInput {
 			input = Runner.scanner.nextLine();
 			if (!hasSpaces(input))
 				isValid = false;
+			isValid = true;
 		}
 		return input;
 	}

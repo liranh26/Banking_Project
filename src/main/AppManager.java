@@ -35,7 +35,7 @@ public class AppManager {
 			Runner.scanner.nextLine();
 			switch (option) {
 			case 1:
-//				app.login();
+				login();
 				break;
 			case 2:
 				openAccount();
@@ -71,6 +71,7 @@ public class AppManager {
 	public void login() {
 		System.out.println("For login via user name enter 1. \nFor login via phone enter 2.");
 		int option = Runner.scanner.nextInt();
+		Runner.scanner.nextLine();
 		switch (option) {
 		case 1:
 			loginViaUserName();
@@ -115,15 +116,15 @@ public class AppManager {
 		System.out.println("Login succesed!");
 		currUser = getAccountByUsername(userName);
 		
-		//TODO UserAction menu and options.
+		//TODO UserAction class -> menu and options.
 	}
 
 	// overloading for login via phone
 	public void loginViaPhone() {
-
+		//TODO complete this method
 	}
-	// menu actions
 
+	
 	// gets a valid! user name
 	private AccountOwner getAccountByUsername(String userName) {
 		for (int i = 0; i < getNumOfClients(); i++) {

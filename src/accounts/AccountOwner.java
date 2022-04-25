@@ -71,10 +71,10 @@ public class AccountOwner extends Person {
 				transfer();
 				break;
 			case 6:
-//				TODO Pay a bill
+				payBill();
 				break;
 			case 7:
-//				TODO Get a loan
+				loan();
 				break;
 			case 8:
 				logout();
@@ -112,33 +112,33 @@ public class AccountOwner extends Person {
 	}
 
 	protected void withdrawal() {
-		System.out.println("Insert withdrawal amount:");
-		int withdrawal = ScannerInputs.getIntFromUser();
-		if (!account.isWithdrawalAvailble(withdrawal)) {
-			System.out.println("The amount entered is not allowed!");
+		int withdrawal = withdrawalAmount();
+		if (withdrawal == 0)
 			return;
-		}
+
 		bankManager.collectFee(account.getFeeOperation());
 		bankManager.account.addToBalance(withdrawal * subtractAmount);
 		account.addToBalance(withdrawal * subtractAmount);
 		Menus.withdrawalSuccess();
 	}
 
-	protected void transfer() {
-		System.out.println("Insert tranfer amount:");
-		int transAmount = ScannerInputs.getIntFromUser();
-		if (transAmount > 2000) {
-			System.out.println("Exceeds valid amount!");
-			return;
+	protected int withdrawalAmount() {
+		System.out.println("Insert withdrawal amount:");
+		int withdrawal = ScannerInputs.getIntFromUser();
+		if (!account.isWithdrawalAvailble(withdrawal)) {
+			System.out.println("The amount entered is not allowed!");
+			return 0;
 		}
+		return withdrawal;
+	}
 
-		System.out.println("Insert phone number:");
-		String phoneNum = ScannerInputs.getString();
-		AccountOwner userRecieveTrans = AppManager.getAccountByPhone(phoneNum);
-		if (userRecieveTrans == null) {
-			System.out.println("User not found!");
+	protected void transfer() {
+		int transAmount = transferAmount();
+		if (transAmount == 0)
 			return;
-		}
+		AccountOwner userRecieveTrans = phoneNumToTransfer();
+		if (userRecieveTrans == null)
+			return;
 
 		bankManager.collectFee(account.getFeeOperation());
 		userRecieveTrans.account.addToBalance(transAmount);
@@ -147,28 +147,68 @@ public class AccountOwner extends Person {
 		System.out.println("Transfer Succeeded!");
 	}
 
-	protected void payBill() {
-		System.out.println("Enter the amount you would like to pay:");
-		int bill = ScannerInputs.getIntFromUser();
-		if (bill > 5000) {
-			System.out.println("Not valid amount! should be less then 5000NIS");
-			return;
+	protected int transferAmount() {
+		System.out.println("Insert tranfer amount:");
+		int transAmount = ScannerInputs.getIntFromUser();
+		if (transAmount > 2000) {
+			System.out.println("Exceeds valid amount!");
+			return 0;
 		}
+		return transAmount;
+	}
 
+	protected AccountOwner phoneNumToTransfer() {
+		System.out.println("Insert phone number:");
+		String phoneNum = ScannerInputs.getString();
+		AccountOwner userRecieveTrans = AppManager.getAccountByPhone(phoneNum);
+		if (userRecieveTrans == null) {
+			System.out.println("User not found!");
+			return null;
+		}
+		return userRecieveTrans;
+	}
+
+	protected void payBill() {
 		Menus.billMenu();
 		int option = ScannerInputs.getIntFromUser();
 		switch (option) {
 		case 1:
-			// loan return
+			loanReturn();
 			break;
 		case 2:
 		case 3:
 		case 4:
-			account.addToBalance(bill * subtractAmount);
+			pay();
 			break;
 		default:
 			Menus.defaultMessage();
 		}
+	}
+
+	protected void pay() {
+		int bill = billAmount();
+		if (bill == 0)
+			return;
+		account.addToBalance(bill * subtractAmount);
+		System.out.println("Bill payed successfuly!");
+	}
+
+	protected int billAmount() {
+		System.out.println("Enter the amount you would like to pay:");
+		int bill = ScannerInputs.getIntFromUser();
+		if (bill > 5000) {
+			System.out.println("Not valid amount! should be less then 5000NIS");
+			return 0;
+		}
+		return bill;
+	}
+
+	protected void loanReturn() {
+		double mounthlyAmount = account.getLoanMonthlyPayment();
+		account.addToBalance(mounthlyAmount * subtractAmount);
+		bankManager.account.addToBalance(mounthlyAmount);
+
+		account.setLoanLeftMonths(account.getLoanLeftMonths() - 1);
 	}
 
 	protected void loan() {

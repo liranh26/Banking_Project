@@ -16,10 +16,21 @@ public class Menus {
 	}
 
 	public static void actionMenu() {
+		System.out.println("------------------------------");
 		System.out.println("Please select desired action:");
 		System.out.println("1. Check Account balance\n" + "2. Produce activity report\n" + "3. Make a deposit\n"
 				+ "4. Make a withdrawal\n" + "5. Transfer funds\n" + "6. Pay a bill\n" + "7. Get a loan\n"
 				+ "8. Logout");
+		System.out.println("------------------------------");
+	}
+	
+	public static void managerActionMenu() {
+		System.out.println("------------------------------");
+		System.out.println("Please select desired action:");
+		System.out.println("1. Check Account balance\n" + "2. Produce activity report\n" + "3. Make a deposit\n"
+				+ "4. Make a withdrawal\n" + "5. Transfer funds\n" + "6. Pay a bill\n" + "7. Approve users\n"
+				+ "8. Logout");
+		System.out.println("------------------------------");
 	}
 
 	public static void printBalance(double balance) {

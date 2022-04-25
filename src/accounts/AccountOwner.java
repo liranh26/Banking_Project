@@ -9,8 +9,7 @@ public class AccountOwner extends Person {
 	protected double mounthlyIncome;
 	protected Account account;
 	protected Credentials credentials;
-	// to identify finished registration option to add a flag when account approved,
-	// or use != null
+	protected BankManager bankManager;
 
 	public AccountOwner(String firstName, String lastName, String phone, LocalDate birthdate, double income,
 			String userName, String password) {
@@ -39,6 +38,10 @@ public class AccountOwner extends Person {
 
 	public void setAccount(Account account) {
 		this.account = account;
+	}
+
+	protected void setBankManager(BankManager bankManager) {
+		this.bankManager = bankManager;
 	}
 
 	public void actionMenu() {
@@ -71,7 +74,7 @@ public class AccountOwner extends Person {
 //				TODO Get a loan
 				break;
 			case 8:
-//				TODO LOGOUT
+				logout();
 				break;
 			default:
 				Menus.defaultMessage();
@@ -91,13 +94,18 @@ public class AccountOwner extends Person {
 		int input = ScannerInputs.getIntFromUser();
 		if (input == authCode) {
 			double depositAmount = ScannerInputs.getDoubleFromUser();
-			double curBalance = account.getBalance();
-			account.setBalance(depositAmount + curBalance);
+			account.addToBalance(depositAmount - account.getFeeOperation());
+			bankManager.account.addToBalance(depositAmount + account.getFeeOperation());
 			Menus.depositSuccess();
+
 		} else
 			Menus.depositFail();
 
 		actionMenu();
+	}
+
+	protected void logout() {
+		System.out.println("GoodBye!");
 	}
 
 }

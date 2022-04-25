@@ -2,6 +2,9 @@ package accounts;
 
 import java.time.LocalDate;
 
+import utils.Menus;
+import utils.ScannerInputs;
+
 public class BankManager extends AccountOwner {
 	protected AccountOwner[] usersToApprove;
 	private static int approvalIndex;
@@ -25,21 +28,55 @@ public class BankManager extends AccountOwner {
 	protected void setAndApproveAccount() {
 		AccountProperties accountProperties;
 		for (int i = 0; i < approvalIndex; i++) {
-			//sets AccountType according to user income
+			// sets AccountType according to user income
 			accountProperties = AccountProperties.getAccountType(usersToApprove[approvalIndex].getMounthlyIncome());
 			usersToApprove[approvalIndex].account = new Account(accountProperties, 0);
+			usersToApprove[approvalIndex].account.setFeeOperation(accountProperties.setFeeOperation());
+			usersToApprove[approvalIndex].account.setInterstRate(accountProperties.setInterstRate());
 			System.out.println("New account added!");
+			usersToApprove[approvalIndex].setBankManager(this);
 		}
 		approvalIndex = 0;
 	}
 
 	@Override
 	public void actionMenu() {
-		// TODO Auto-generated method stub
-		super.actionMenu();
+		int option = 0;
+		System.out.println("Welcome " + this.getFirstName() + " what would you like to do?");
+		while (option != 8) {
+			Menus.managerActionMenu();
+			option = ScannerInputs.scanner.nextInt();
+			ScannerInputs.scanner.nextLine();
+			switch (option) {
+			case 1:
+				checkBalance();
+				break;
+			case 2:
+//				TODO Produce activity report
+				break;
+			case 3:
+				deposit();
+				break;
+			case 4:
+//				TODO Make a withdrawal
+				break;
+			case 5:
+//				TODO Transfer funds
+				break;
+			case 6:
+//				TODO Pay a bill
+				break;
+			case 7:
+				setAndApproveAccount();
+				break;
+			case 8:
+				logout();
+				break;
+			default:
+				Menus.defaultMessage();
+			}
+
+		}
+
 	}
-
-	
-	
-
 }

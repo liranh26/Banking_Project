@@ -96,7 +96,8 @@ public class AppManager {
 		}
 
 		while (passAttempet != 3) {
-			String password = ScannerInputs.scanner.nextLine();
+			System.out.println("Enter Password: ");
+			String password = ScannerInputs.getString();
 			if (password.equals(getAccountByUsername(userName).getCredentials().getPassword()))
 				break;
 			passAttempet++;
@@ -112,6 +113,7 @@ public class AppManager {
 
 		// TODO UserAction class -> menu and options.
 		currUser.actionMenu();
+		currUser = null;
 	}
 
 	public void loginViaPhone() {

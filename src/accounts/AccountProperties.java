@@ -6,7 +6,7 @@ public enum AccountProperties {
 	BRONZE(4.5f, 6, 5, 7.5f, 10000, 2500), SILVER(3, 4.5f, 3.8f, 5, 20000, 4000),
 	GOLD(1.5f, 3, 1.75f, 3.8f, 50000, 6000), TITANIUM(0, 0, 0, 0, 0, 0);
 
-	double minInterstRate, maxInterstRate, minFee, maxFee, feeOperation, interstRate;
+	double minInterstRate, maxInterstRate, minFee, maxFee;
 	int maxLoan, maxWithdraw;
 
 	AccountProperties(double minInterstRate, double maxInterstRate, double minFee, double maxFee, int maxLoan,
@@ -18,10 +18,7 @@ public enum AccountProperties {
 		this.minFee = minFee;
 		this.minInterstRate = minInterstRate;
 
-		if (minFee != 0) {
-			setFeeOperation();
-			setInterstRate();
-		}
+
 	}
 
 	static AccountProperties getAccountType(double income) {
@@ -31,23 +28,23 @@ public enum AccountProperties {
 			return SILVER;
 		return GOLD;
 	}
-
-	private void setInterstRate() {
+	
+	protected double setInterstRate() {
 		Random random = new Random();
 		// get a random number between the range of min and max
 		double rand = random.doubles(minInterstRate, maxInterstRate).findFirst().getAsDouble();
 		// set 2 numbers after the point
 		rand = (Math.round(rand * 100.0) / 100.0);
-		this.interstRate = rand;
+		return rand;
 	}
 
-	private void setFeeOperation() {
+	protected double setFeeOperation() {
 		// get a random number between the range of min and max
 		Random random = new Random();
 		// set 2 numbers after the point
 		double rand = random.doubles(minFee, maxFee).findFirst().getAsDouble();
 		rand = (Math.round(rand * 100.0) / 100.0);
-		this.feeOperation = rand;
+		return rand;
 	}
 
 }

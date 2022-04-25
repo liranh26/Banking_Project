@@ -5,11 +5,17 @@ public class Account {
 	protected AccountProperties accountProperties;
 	private static int idCounter=1;
 	private final int ACCOUNT_ID;
+	protected ActivityData[] activityLog; //TODO complete!
+	private int numOfActivites;
+	protected double feeOperation;
+	protected double interstRate;
+	
 	
 	public Account(AccountProperties accountProperties, double balance) {
 		this.accountProperties = accountProperties;
 		setBalance(balance);
 		ACCOUNT_ID = idCounter++;
+		activityLog = new ActivityData[numOfActivites];
 	}
 
 	public double getBalance() {
@@ -22,6 +28,22 @@ public class Account {
 
 	public int getACCOUNT_ID() {
 		return ACCOUNT_ID;
+	}
+	
+	protected void addToBalance(double deposit) {
+		setBalance(deposit+getBalance());
+	}
+
+	public void setFeeOperation(double feeOperation) {
+		this.feeOperation = feeOperation;
+	}
+	
+	public double getFeeOperation() {
+		return feeOperation;
+	}
+
+	public void setInterstRate(double interstRate) {
+		this.interstRate = interstRate;
 	}
 	
 	

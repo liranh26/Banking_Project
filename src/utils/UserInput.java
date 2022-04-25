@@ -1,7 +1,6 @@
 package utils;
 
 import java.time.LocalDate;
-import java.util.Random;
 
 import main.AppManager;
 
@@ -190,20 +189,17 @@ public class UserInput {
 		String input = "";
 		while (!isValid) {
 			System.out.println("Enter a user name: ");
-			input = ScannerInputs.scanner.nextLine();
+			input = ScannerInputs.scanner.next();
 			if (!hasSpaces(input))
 				isValid = false;
 			isValid = true;
+			ScannerInputs.scanner.nextLine();
 		}
 		return input;
 	}
 	
 	
-	public static int getAuthNum() {
-		Random random = new Random();
-		int authCode = random.nextInt(1000, 9999);
-		return authCode;
-	}
+
 	
 	
 }

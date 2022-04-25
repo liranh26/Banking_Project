@@ -45,7 +45,9 @@ public class Menus {
 	}
 
 	public static void depositSuccess() {
+		System.out.println("------------------------------");
 		System.out.println("Your deposit was recieved successfully!");
+		System.out.println("------------------------------");
 	}
 
 	public static void depositFail() {
@@ -53,9 +55,17 @@ public class Menus {
 	}
 
 	public static void printActivity(ActivityData activity) {
+		System.out.println("------------------------------");
 		System.out.println("At date: " + activity.getTimeStamp() + ", you did a "
 				+ activity.getActivityName().toString().toLowerCase() + ", and the balance was: "
 				+ activity.getBalanceChange());
+		
+	}
+	
+	public static void withdrawalSuccess() {
+		System.out.println("------------------------------");
+		System.out.println("Successfuly withdrawal the money! Enjoy.");
+		System.out.println("------------------------------");
 	}
 
 }

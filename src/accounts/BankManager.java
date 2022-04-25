@@ -38,6 +38,10 @@ public class BankManager extends AccountOwner {
 		}
 		approvalIndex = 0;
 	}
+	
+	protected void collectFee(double fee) {
+		account.addToBalance(fee);
+	}
 
 	@Override
 	public void actionMenu() {

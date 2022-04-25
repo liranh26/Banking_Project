@@ -11,6 +11,8 @@ public class AccountOwner extends Person {
 	protected Account account;
 	protected Credentials credentials;
 	protected BankManager bankManager;
+	private final int subtractAmount=-1;
+	
 
 	public AccountOwner(String firstName, String lastName, String phone, LocalDate birthdate, double income,
 			String userName, String password) {
@@ -63,7 +65,7 @@ public class AccountOwner extends Person {
 				deposit();
 				break;
 			case 4:
-//				TODO Make a withdrawal
+				withdrawal();
 				break;
 			case 5:
 //				TODO Transfer funds
@@ -109,10 +111,28 @@ public class AccountOwner extends Person {
 		}
 	}
 
+	protected void withdrawal() {
+		System.out.println("Insert withdrawal amount:");
+		int withdrawal = ScannerInputs.getIntFromUser();
+		if(!account.isWithdrawalAvailble(withdrawal)) {
+			System.out.println("The amount entered is not allowed!");
+			return;
+		}
+		bankManager.collectFee(account.getFeeOperation());
+		bankManager.account.addToBalance(withdrawal*subtractAmount);
+		account.addToBalance(withdrawal*subtractAmount);
+		Menus.withdrawalSuccess();
+	}
+	
+//	protected void transfer() {
+//		System.out.println("Insert phone number:");
+//		int phone = ScannerInputs.getIntFromUser();
+//	}
+	
+	
 	protected void logout() {
 		System.out.println("GoodBye!");
 	}
-	
 	
 
 }

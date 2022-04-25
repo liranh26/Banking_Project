@@ -6,7 +6,8 @@ public class Account {
 	private static int idCounter=1;
 	private final int ACCOUNT_ID;
 	protected ActivityData[] activityLog; //TODO complete!
-	private int numOfActivites;
+	private static int logIndex;
+	private final int recordNumOfActivites=100;
 	protected double feeOperation;
 	protected double interstRate;
 	
@@ -15,7 +16,8 @@ public class Account {
 		this.accountProperties = accountProperties;
 		setBalance(balance);
 		ACCOUNT_ID = idCounter++;
-		activityLog = new ActivityData[numOfActivites];
+		activityLog = new ActivityData[recordNumOfActivites];
+		logIndex=0;
 	}
 
 	public double getBalance() {
@@ -46,6 +48,13 @@ public class Account {
 		this.interstRate = interstRate;
 	}
 	
+	protected void setActivity(ActivityData activity) {
+		activityLog[logIndex++] = activity;
+	}
+	
+	public int getLogIndex() {
+		return logIndex;
+	}
 	
 
 }

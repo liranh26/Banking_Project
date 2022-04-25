@@ -1,5 +1,7 @@
 package utils;
 
+import accounts.ActivityData;
+
 public class Menus {
 
 	public static void startMenu() {
@@ -23,7 +25,7 @@ public class Menus {
 				+ "8. Logout");
 		System.out.println("------------------------------");
 	}
-	
+
 	public static void managerActionMenu() {
 		System.out.println("------------------------------");
 		System.out.println("Please select desired action:");
@@ -36,18 +38,24 @@ public class Menus {
 	public static void printBalance(double balance) {
 		System.out.println("Your balance account is: " + balance);
 	}
-	
+
 	public static void authCodeMessage(int authCode) {
 		System.out.println("Authentication code sent to you, please enter it.");
-		System.out.println("Your code is: "+authCode);
+		System.out.println("Your code is: " + authCode);
 	}
-	
+
 	public static void depositSuccess() {
 		System.out.println("Your deposit was recieved successfully!");
 	}
 
 	public static void depositFail() {
 		System.out.println("Your authentication code doesn't match, try again later!");
+	}
+
+	public static void printActivity(ActivityData activity) {
+		System.out.println("At date: " + activity.getTimeStamp() + ", you did a "
+				+ activity.getActivityName().toString().toLowerCase() + ", and the balance was: "
+				+ activity.getBalanceChange());
 	}
 
 }

@@ -1,6 +1,7 @@
 package accounts;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import utils.Menus;
 import utils.ScannerInputs;
@@ -56,7 +57,7 @@ public class AccountOwner extends Person {
 				checkBalance();
 				break;
 			case 2:
-//				TODO Produce activity report
+				produceReport();
 				break;
 			case 3:
 				deposit();
@@ -85,7 +86,6 @@ public class AccountOwner extends Person {
 
 	protected void checkBalance() {
 		Menus.printBalance(account.getBalance());
-		actionMenu();
 	}
 
 	protected void deposit() {
@@ -93,19 +93,26 @@ public class AccountOwner extends Person {
 		Menus.authCodeMessage(authCode);
 		int input = ScannerInputs.getIntFromUser();
 		if (input == authCode) {
+			System.out.println("Insert deposit amount:");
 			double depositAmount = ScannerInputs.getDoubleFromUser();
 			account.addToBalance(depositAmount - account.getFeeOperation());
 			bankManager.account.addToBalance(depositAmount + account.getFeeOperation());
+			account.setActivity(new ActivityData(ActivityName.DEPOSIT, account.getBalance(), LocalDateTime.now()));
 			Menus.depositSuccess();
-
 		} else
 			Menus.depositFail();
+	}
 
-		actionMenu();
+	protected void produceReport() {
+		for (int i = 0; i < account.getLogIndex(); i++) {
+			Menus.printActivity(account.activityLog[i]);
+		}
 	}
 
 	protected void logout() {
 		System.out.println("GoodBye!");
 	}
+	
+	
 
 }

@@ -29,12 +29,12 @@ public class BankManager extends AccountOwner {
 		AccountProperties accountProperties;
 		for (int i = 0; i < approvalIndex; i++) {
 			// sets AccountType according to user income
-			accountProperties = AccountProperties.getAccountType(usersToApprove[approvalIndex].getMounthlyIncome());
-			usersToApprove[approvalIndex].account = new Account(accountProperties, 0);
-			usersToApprove[approvalIndex].account.setFeeOperation(accountProperties.setFeeOperation());
-			usersToApprove[approvalIndex].account.setInterstRate(accountProperties.setInterstRate());
+			accountProperties = AccountProperties.getAccountType(usersToApprove[i].getMounthlyIncome());
+			usersToApprove[i].account = new Account(accountProperties, 0);
+			usersToApprove[i].account.setFeeOperation(accountProperties.setFeeOperation());
+			usersToApprove[i].account.setInterstRate(accountProperties.setInterstRate());
 			System.out.println("New account added!");
-			usersToApprove[approvalIndex].setBankManager(this);
+			usersToApprove[i].setBankManager(this);
 		}
 		approvalIndex = 0;
 	}

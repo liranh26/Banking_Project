@@ -17,7 +17,7 @@ public class Account {
 	private static int dailyWithraw;
 	protected double loanMonthlyPayment;
 	protected int loanLeftMonths;
-	protected static LocalDateTime loginFailure;
+	protected LocalDateTime loginFailure;
 	
 	public Account(AccountProperties accountProperties, double balance) {
 		this.accountProperties = accountProperties;
@@ -109,12 +109,12 @@ public class Account {
 		this.loanLeftMonths = loanLeftMonths;
 	}
 
-	protected static LocalDateTime getLoginFailure() {
+	protected LocalDateTime getLoginFailure() {
 		return loginFailure;
 	}
 
-	public static void setLoginFailure(LocalDateTime loginFailure) {
-		Account.loginFailure = loginFailure;
+	public void setLoginFailure(LocalDateTime loginFailure) {
+		this.loginFailure = loginFailure;
 	}
 	
 	public boolean isAccountLocked() {

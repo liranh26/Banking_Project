@@ -1,8 +1,8 @@
 package main;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import accounts.Account;
 import accounts.AccountOwner;
 import accounts.BankManager;
 import tests.TestsObjects;
@@ -46,31 +46,32 @@ public class AppManager {
 			}
 		}
 	}
+	
+//	//made up accounts for testing
+//	protected void openAccount() {
+//		TestsObjects test = new TestsObjects();
+//		for (int i = 0; i < 3; i++) {
+//			currUser = test.demoAccounts()[i];
+//			users[newUserIndex++] = currUser;
+//			bankManager.addUserToApprove(currUser);
+//			System.out.println("For final regerstation wait for bank manager approval!");
+//		}
+//	}
 
 	protected void openAccount() {
-		TestsObjects test = new TestsObjects();
-		for (int i = 0; i < 3; i++) {
-			currUser = test.demoAccounts()[i];
-			users[newUserIndex++] = currUser;
-			bankManager.addUserToApprove(currUser);
-			System.out.println("For final regerstation wait for bank manager approval!");
-		}
+		String firstName = userInput.getNameFromUser("first");
+		String lastName = userInput.getNameFromUser("last");
+		String phone = userInput.getPhoneFromUser(this);
+		LocalDate birthdate = userInput.getBirthdateFromUser();
+		double income = userInput.getIncomeFromUser();
+		String userName = userInput.getUsernameFromUser(this);
+		String password = userInput.getPassWordFromUser();
+		
+		currUser = new AccountOwner(firstName, lastName, phone, birthdate, income, userName, password);
+		users[newUserIndex++] = currUser;
+		bankManager.addUserToApprove(currUser);
+		System.out.println("For final regerstation wait for bank manager approval!");
 	}
-
-//	protected void openAccount() {
-//		String firstName = userInput.getNameFromUser("first");
-//		String lastName = userInput.getNameFromUser("last");
-//		String phone = userInput.getPhoneFromUser(this);
-//		LocalDate birthdate = userInput.getBirthdateFromUser();
-//		double income = userInput.getIncomeFromUser();
-//		String userName = userInput.getUsernameFromUser(this);
-//		String password = userInput.getPassWordFromUser();
-//		
-//		currUser = new AccountOwner(firstName, lastName, phone, birthdate, income, userName, password);
-//		users[newUserIndex++] = currUser;
-//		bankManager.addUserToApprove(currUser);
-//		System.out.println("For final regerstation wait for bank manager approval!");
-//	}
 
 	public static int getNumOfClients() {
 		return newUserIndex;
@@ -99,7 +100,7 @@ public class AppManager {
 
 		int passAttempet = enterPasswordForLogin(userName);
 
-		if (passLoginFail(passAttempet) == null)
+		if (passLoginFail(passAttempet, userName) == null)
 			return;
 
 		System.out.println("Login succesed!");
@@ -109,10 +110,10 @@ public class AppManager {
 		currUser = null;
 	}
 
-	protected String passLoginFail(int passAttempet) {
+	protected String passLoginFail(int passAttempet, String userName) {
 		if (passAttempet == 3) {
-			System.out.println("Login failed 3 time, account locked for 20 minutes!");
-			Account.setLoginFailure(LocalDateTime.now());
+			System.out.println("Login failed 3 time, account locked for 30 minutes!");
+			getAccountByUsername(userName).getAccount().setLoginFailure(LocalDateTime.now());
 			return null;
 		}
 		return "OK";
@@ -160,12 +161,12 @@ public class AppManager {
 		String phone = enterPhoneForLogin();
 		if (phone == null)
 			return;
-
+		String userName =  getAccountByPhone(phone).getCredentials().getUserName();
 		// request & checks valid password by user name, need to send username via the
 		// connected phone number in the account.
-		int passAttempet = enterPasswordForLogin(getAccountByPhone(phone).getCredentials().getUserName());
-
-		if (passLoginFail(passAttempet) == null)
+		int passAttempet = enterPasswordForLogin(userName);
+		
+		if (passLoginFail(passAttempet, userName) == null)
 			return;
 
 		System.out.println("Login succesed!");

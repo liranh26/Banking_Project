@@ -75,7 +75,7 @@ public class AccountOwner extends Person {
 				payBill();
 				break;
 			case 7:
-				loan(); // TODO check works
+				loan();
 				break;
 			case 8:
 				logout();
@@ -86,8 +86,6 @@ public class AccountOwner extends Person {
 			}
 		}
 	}
-
-	// TODO log activity for all options!!!!!!!!!!!!!!
 
 	protected void checkBalance() {
 		Menus.printBalance(account.getBalance());
@@ -128,7 +126,7 @@ public class AccountOwner extends Person {
 		int year = userInput.getCustomInputFromUser(0, 2022, "desired start year");
 		int month = userInput.getCustomInputFromUser(1, 12, "desired start month");
 		int day = userInput.getCustomInputFromUser(1, 31, "desired start day");
-		return LocalDateTime.of(year, month, month, 0, 0);
+		return LocalDateTime.of(year, month, day, 0, 0);
 	}
 
 	protected void withdrawal() {

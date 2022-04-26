@@ -25,7 +25,7 @@ public class ScannerInputs {
 		return authCode;
 	}
 	
-	public static String getString() {
+	public static String getStringFromUser() {
 		String str = ScannerInputs.scanner.next();
 		ScannerInputs.scanner.nextLine();
 		return str;

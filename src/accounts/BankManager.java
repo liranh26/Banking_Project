@@ -39,12 +39,10 @@ public class BankManager extends AccountOwner {
 		}
 		approvalIndex = 0;
 	}
-	
+
 	protected void collectFee(double fee) {
 		account.addToBalance(fee);
 	}
-	
-	
 
 	@Override
 	public void actionMenu() {
@@ -59,19 +57,19 @@ public class BankManager extends AccountOwner {
 				checkBalance();
 				break;
 			case 2:
-//				TODO Produce activity report
+				produceReport();
 				break;
 			case 3:
 				deposit();
 				break;
 			case 4:
-//				TODO Make a withdrawal
+				withdrawal();
 				break;
 			case 5:
-//				TODO Transfer funds
+				transfer();
 				break;
 			case 6:
-//				TODO Pay a bill
+				payBill();
 				break;
 			case 7:
 				setAndApproveAccount();
@@ -82,8 +80,14 @@ public class BankManager extends AccountOwner {
 			default:
 				Menus.defaultMessage();
 			}
-
 		}
-
 	}
+
+	@Override
+	protected void produceReport() {
+		// TODO what to change in the bank report? 
+		super.produceReport();
+	}
+	
+	
 }

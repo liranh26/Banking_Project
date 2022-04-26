@@ -46,13 +46,13 @@ public class AppManager {
 	}
 
 	protected void openAccount() {
-		String firstName = userInput.setName("first");
-		String lastName = userInput.setName("last");
-		String phone = userInput.setPhoneNum(this);
-		LocalDate birthdate = userInput.setBirthdate();
-		double income = userInput.setIncome();
-		String userName = userInput.setUserName(this);
-		String password = userInput.setPassWord();
+		String firstName = userInput.getNameFromUser("first");
+		String lastName = userInput.getNameFromUser("last");
+		String phone = userInput.getPhoneFromUser(this);
+		LocalDate birthdate = userInput.getBirthdateFromUser();
+		double income = userInput.getIncomeFromUser();
+		String userName = userInput.getUsernameFromUser(this);
+		String password = userInput.getPassWordFromUser();
 
 		currUser = new AccountOwner(firstName, lastName, phone, birthdate, income, userName, password);
 		users[newUserIndex++] = currUser;
@@ -84,7 +84,7 @@ public class AppManager {
 		String userName = "";
 
 		while (!userNameValid) {
-			userName = userInput.getUserName();
+			userName = userInput.getLoginUserName();
 			if (userInput.isUserNameExist(this, userName)) {
 				userNameValid = true;
 				if (getAccountByUsername(userName).getAccount() == null) {
@@ -92,12 +92,11 @@ public class AppManager {
 					return;
 				}
 			}
-
 		}
 
 		while (passAttempet != 3) {
 			System.out.println("Enter Password: ");
-			String password = ScannerInputs.getString();
+			String password = ScannerInputs.getStringFromUser();
 			if (password.equals(getAccountByUsername(userName).getCredentials().getPassword()))
 				break;
 			passAttempet++;
@@ -111,7 +110,6 @@ public class AppManager {
 		System.out.println("Login succesed!");
 		currUser = getAccountByUsername(userName);
 
-		// TODO UserAction class -> menu and options.
 		currUser.actionMenu();
 		currUser = null;
 	}

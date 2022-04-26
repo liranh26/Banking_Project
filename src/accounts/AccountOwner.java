@@ -86,6 +86,8 @@ public class AccountOwner extends Person {
 		}
 	}
 
+	//TODO log activity for all options!!!!!!!!!!!!!!
+	
 	protected void checkBalance() {
 		Menus.printBalance(account.getBalance());
 	}
@@ -159,7 +161,7 @@ public class AccountOwner extends Person {
 
 	protected AccountOwner phoneNumToTransfer() {
 		System.out.println("Insert phone number:");
-		String phoneNum = ScannerInputs.getString();
+		String phoneNum = ScannerInputs.getStringFromUser();
 		AccountOwner userRecieveTrans = AppManager.getAccountByPhone(phoneNum);
 		if (userRecieveTrans == null) {
 			System.out.println("User not found!");

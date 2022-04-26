@@ -20,7 +20,6 @@ public class AccountOwner extends Person {
 		setMounthlyIncome(income);
 		account = null;
 		credentials = new Credentials(userName, password);
-		System.out.println("For final regerstation wait for bank manager approval!");
 	}
 
 	public double getMounthlyIncome() {

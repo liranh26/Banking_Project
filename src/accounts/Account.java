@@ -17,6 +17,7 @@ public class Account {
 	private static int dailyWithraw;
 	protected double loanMonthlyPayment;
 	protected int loanLeftMonths;
+	protected static LocalDateTime loginFailure;
 	
 	public Account(AccountProperties accountProperties, double balance) {
 		this.accountProperties = accountProperties;
@@ -108,6 +109,23 @@ public class Account {
 		this.loanLeftMonths = loanLeftMonths;
 	}
 
+	protected static LocalDateTime getLoginFailure() {
+		return loginFailure;
+	}
 
+	public static void setLoginFailure(LocalDateTime loginFailure) {
+		Account.loginFailure = loginFailure;
+	}
+	
+	public boolean isAccountLocked() {
+		if(getLoginFailure() == null)
+			return false;
+		long diff = ChronoUnit.MINUTES.between(getLoginFailure(), LocalDateTime.now());
+		if (diff < 30)
+			return true;
+		return false;
+	}
+
+	
 	
 }

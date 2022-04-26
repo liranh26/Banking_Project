@@ -121,7 +121,7 @@ public class UserInput {
 		while (!hasCharAndNum) {
 			System.out.println("Enter password with 4-8 charchters, with at least 1 digit and 1 letter.");
 			input = ScannerInputs.getStringFromUser();
-			if (input.length() > 8 || input.length() < 4 || !hasSpaces(input))
+			if (input.length() > 8 || input.length() < 4)
 				continue;
 			if (hasChars(input) && hasNumbers(input))
 				hasCharAndNum = true;

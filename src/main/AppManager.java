@@ -1,7 +1,9 @@
 package main;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+import accounts.Account;
 import accounts.AccountOwner;
 import accounts.BankManager;
 import utils.Menus;
@@ -57,6 +59,7 @@ public class AppManager {
 		currUser = new AccountOwner(firstName, lastName, phone, birthdate, income, userName, password);
 		users[newUserIndex++] = currUser;
 		bankManager.addUserToApprove(currUser);
+		System.out.println("For final regerstation wait for bank manager approval!");
 	}
 
 	public static int getNumOfClients() {
@@ -82,15 +85,18 @@ public class AppManager {
 		boolean userNameValid = false;
 		int passAttempet = 0;
 		String userName = "";
-
+		
 		while (!userNameValid) {
 			userName = userInput.getLoginUserName();
-			if (userInput.isUserNameExist(this, userName)) {
+				if (userInput.isUserNameExist(this, userName)) {
 				userNameValid = true;
 				if (getAccountByUsername(userName).getAccount() == null) {
 					System.out.println("Your user have not been approved yet, contact bank manager.");
 					return;
 				}
+				if(getAccountByUsername(userName).getAccount().isAccountLocked()) {
+					System.out.println("Your account is locked! wait 30 minutes.");
+				}				
 			}
 		}
 
@@ -103,7 +109,8 @@ public class AppManager {
 		}
 
 		if (passAttempet == 3) {
-			// TODO cooldown
+			System.out.println("Login failed 3 time, account locked for 20 minutes!");
+			Account.setLoginFailure(LocalDateTime.now());
 			return;
 		}
 
@@ -113,9 +120,11 @@ public class AppManager {
 		currUser.actionMenu();
 		currUser = null;
 	}
-
+	
+	
+	
 	public void loginViaPhone() {
-		// TODO complete this method
+		// TODO complete login via phone
 	}
 
 	// gets a valid! user name

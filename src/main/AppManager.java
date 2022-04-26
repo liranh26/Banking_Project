@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 import accounts.AccountOwner;
 import accounts.BankManager;
-//import tests.TestsObjects;
+import tests.TestsObjects;
 import utils.Menus;
 import utils.ScannerInputs;
 import utils.UserInput;
@@ -61,42 +61,42 @@ public class AppManager {
 		}
 	}
 
-//	//made up accounts for testing (import class also commented out)
-//	protected void openAccount() {
-//		TestsObjects test = new TestsObjects();
-//		for (int i = 0; i < 3; i++) {
-//			currUser = test.demoAccounts()[i];
-//			users[newUserIndex++] = currUser;
-//			bankManager.addUserToApprove(currUser);
-//			System.out.println("For final regerstation wait for bank manager approval!");
-//		}
-//	}
+	//made up accounts for testing (import class also commented out)
+	protected void openAccount() {
+		TestsObjects test = new TestsObjects();
+		for (int i = 0; i < 3; i++) {
+			currUser = test.demoAccounts()[i];
+			users[newUserIndex++] = currUser;
+			bankManager.addUserToApprove(currUser);
+			System.out.println("For final regerstation wait for bank manager approval!");
+		}
+	}
 
 	/**
 	 * openAccount sets a new account for a user that is NOT already register. it
 	 * asks the users data for the account via the userInput class.
 	 */
-	protected void openAccount() {
-		String userName = userInput.getLoginUserName();
-
-		if (isUserNameExist(userName)) {
-			System.out.println("User already exists try login.");
-			login();
-		} else {
-			String firstName = userInput.getNameFromUser("first");
-			String lastName = userInput.getNameFromUser("last");
-			String phone = userInput.getPhoneFromUser(this);
-			LocalDate birthdate = userInput.getBirthdateFromUser();
-			double income = userInput.getIncomeFromUser();
-			String password = userInput.getPassWordFromUser();
-
-			currUser = new AccountOwner(firstName, lastName, phone, birthdate, income, userName, password);
-			users[newUserIndex++] = currUser;
-			bankManager.addUserToApprove(currUser);
-			System.out.println("For final regerstation wait for bank manager approval!");
-		}
-
-	}
+//	protected void openAccount() {
+//		String userName = userInput.getLoginUserName();
+//
+//		if (isUserNameExist(userName)) {
+//			System.out.println("User already exists try login.");
+//			login();
+//		} else {
+//			String firstName = userInput.getNameFromUser("first");
+//			String lastName = userInput.getNameFromUser("last");
+//			String phone = userInput.getPhoneFromUser(this);
+//			LocalDate birthdate = userInput.getBirthdateFromUser();
+//			double income = userInput.getIncomeFromUser();
+//			String password = userInput.getPassWordFromUser();
+//
+//			currUser = new AccountOwner(firstName, lastName, phone, birthdate, income, userName, password);
+//			users[newUserIndex++] = currUser;
+//			bankManager.addUserToApprove(currUser);
+//			System.out.println("For final regerstation wait for bank manager approval!");
+//		}
+//
+//	}
 
 	/**
 	 * checks if a username is already signed.

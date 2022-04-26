@@ -9,13 +9,37 @@ import utils.Menus;
 import utils.ScannerInputs;
 import utils.UserInput;
 
+/**
+ * This class represent an account owner in the bank. It extends the Person
+ * class, and has all the key features for an account in the bank. After login
+ * to the system the menu of all the features will open.
+ * 
+ * 
+ * @author Liran Hadad
+ *
+ */
+
 public class AccountOwner extends Person {
 	protected double mounthlyIncome;
 	protected Account account;
 	protected Credentials credentials;
 	protected BankManager bankManager;
 	private final int subtractAmount = -1;
+	private final int maxTransferAmount = 2000;
 
+	/**
+	 * This constructor uses the Pesron and extends it with the following fields.
+	 * 
+	 * @param firstName - a string with only chars.
+	 * @param lastName  - a string with onlt chars.
+	 * @param phone     - a unique field to this account user, and contains only
+	 *                  numbers.
+	 * @param birthdate - a date of birth of the user.
+	 * @param income    - a number greater then zero represents the monthly income
+	 *                  of the account owner.
+	 * @param userName  - a unique String for this account.
+	 * @param password  - a String with at least 1 char and 1 number.
+	 */
 	public AccountOwner(String firstName, String lastName, String phone, LocalDate birthdate, double income,
 			String userName, String password) {
 		super(firstName, lastName, phone, birthdate);
@@ -48,6 +72,10 @@ public class AccountOwner extends Person {
 		this.bankManager = bankManager;
 	}
 
+	/**
+	 * This method prints a menu with available actions for account owner. it asks
+	 * for an input from a the user to choose the desired action to do.
+	 */
 	public void actionMenu() {
 		int option = 0;
 		System.out.println("Welcome " + this.getFirstName() + " what would you like to do?");
@@ -90,6 +118,11 @@ public class AccountOwner extends Person {
 		Menus.printBalance(account.getBalance());
 	}
 
+	/**
+	 * This method asks for a user input of the desired amount to deposit. It sends
+	 * an authentication code for user if it matches it sets the amount input by the
+	 * user.
+	 */
 	protected void deposit() {
 		int authCode = ScannerInputs.getAuthNum();
 		Menus.authCodeMessage(authCode);
@@ -105,6 +138,10 @@ public class AccountOwner extends Person {
 			Menus.depositFail();
 	}
 
+	/**
+	 * This method produce a report with the activity of the account from a specific
+	 * day entered by the user to now.
+	 */
 	protected void produceReport() {
 
 		if (account.activityLog[0] == null) {
@@ -113,10 +150,11 @@ public class AccountOwner extends Person {
 		}
 
 		LocalDateTime startDate = getDateStratForReport();
+
 		for (int i = 0; i < account.getLogIndex(); i++) {
 			long diff = ChronoUnit.HOURS.between(startDate, account.activityLog[i].getTimeStamp());
 			if (diff > 0)
-				Menus.printActivity(account.activityLog[i]);
+				Menus.printBankActivity(account.getBalance(), account.activityLog[i]);
 		}
 
 		if (account.getLoanLeftMonths() > 0)
@@ -135,6 +173,11 @@ public class AccountOwner extends Person {
 		return LocalDateTime.of(year, month, day, 0, 0);
 	}
 
+	/**
+	 * This method lets account owner to withdrawal from the account as long it not
+	 * exceeds the daily limit or the max amount for the account. After the action
+	 * the method update the balance of the account and the bank.
+	 */
 	protected void withdrawal() {
 		int withdrawal = withdrawalAmount();
 		if (withdrawal == 0)
@@ -145,18 +188,22 @@ public class AccountOwner extends Person {
 		account.addToBalance(withdrawal * subtractAmount);
 		Menus.withdrawalSuccess();
 
-		account.setActivity(new ActivityData(ActivityName.PAY_BILL, account.getBalance(), LocalDateTime.now()));
-		bankManager.account.setActivity(new ActivityData(ActivityName.PAY_BILL,
+		account.setActivity(new ActivityData(ActivityName.WITHDRAWL, account.getBalance(), LocalDateTime.now()));
+		bankManager.account.setActivity(new ActivityData(ActivityName.WITHDRAWL,
 				withdrawal * subtractAmount + account.getFeeOperation(), LocalDateTime.now()));
 	}
 
+	/**
+	 * This method collects fee per action by the user. The fee amount is different
+	 * for each account.
+	 */
 	protected void feeCollection() {
 		bankManager.collectFee(account.getFeeOperation());
 		account.addToBalance(subtractAmount * account.getFeeOperation());
 	}
 
 	/**
-	 * function helper for withdrawal use case.
+	 * This method asks the user for the withdrawal amount desired.
 	 * 
 	 * @return the desired withdrawal amount.
 	 */
@@ -170,6 +217,11 @@ public class AccountOwner extends Person {
 		return withdrawal;
 	}
 
+	/**
+	 * This method transfer an amount from one account to another via a unique phone
+	 * string that represents the account owner to receive the transfer. When finish
+	 * it updates the balance account of the bank and users and logs the action.
+	 */
 	protected void transfer() {
 		int transAmount = transferAmount();
 		if (transAmount == 0)
@@ -183,26 +235,31 @@ public class AccountOwner extends Person {
 		account.addToBalance(transAmount * subtractAmount + account.getFeeOperation() * subtractAmount);
 		System.out.println("Transfer Succeeded!");
 
-		account.setActivity(new ActivityData(ActivityName.PAY_BILL, account.getBalance(), LocalDateTime.now()));
+		account.setActivity(new ActivityData(ActivityName.TRANSFER, account.getBalance(), LocalDateTime.now()));
 		bankManager.account
 				.setActivity(new ActivityData(ActivityName.TRANSFER, account.getFeeOperation(), LocalDateTime.now()));
 	}
 
 	/**
-	 * helper function for transfer use case
+	 * This method asks the user for the transfer amount desired.
 	 * 
 	 * @return a valid desired transfer amount.
 	 */
 	protected int transferAmount() {
 		System.out.println("Insert transfer amount:");
 		int transAmount = ScannerInputs.getIntFromUser();
-		if (transAmount > 2000) {
+		if (transAmount > maxTransferAmount) {
 			System.out.println("Exceeds valid amount!");
 			return 0;
 		}
 		return transAmount;
 	}
 
+	/**
+	 * This method asks the user for a phone number to receive a transfer action.
+	 * 
+	 * @return account owner of the desired account to transfer to it.
+	 */
 	protected AccountOwner phoneNumToTransfer() {
 		System.out.println("Insert phone number:");
 		String phoneNum = ScannerInputs.getStringFromUser();
@@ -214,6 +271,10 @@ public class AccountOwner extends Person {
 		return userRecieveTrans;
 	}
 
+	/**
+	 * This method prints menu of types of bills available to pay, and asks the user
+	 * to choose desired action.
+	 */
 	protected void payBill() {
 		Menus.billMenu();
 		int option = ScannerInputs.getIntFromUser();
@@ -231,6 +292,11 @@ public class AccountOwner extends Person {
 		}
 	}
 
+	/**
+	 * This method allows the user to pay a bill. When finished it logs it and
+	 * updates the balance account for the bank and the user.
+	 * 
+	 */
 	protected void pay() {
 		int bill = billAmount();
 		if (bill == 0)
@@ -247,7 +313,8 @@ public class AccountOwner extends Person {
 	}
 
 	/**
-	 * handler function for pay function to pay bills.
+	 * This method asks the user the desired bill amount to pay and checks it not
+	 * exceeds tha valid limit.
 	 * 
 	 * @return the bill amount user would like to pay.
 	 */
@@ -262,7 +329,8 @@ public class AccountOwner extends Person {
 	}
 
 	/**
-	 * pays a monthly amount from the loan taken.
+	 * This method pays a monthly amount from the loan taken. When finished it
+	 * updates balance accounts for the bank and the user.
 	 */
 	protected void loanReturn() {
 		double monthlyAmount = account.getLoanMonthlyPayment();
@@ -279,7 +347,8 @@ public class AccountOwner extends Person {
 	}
 
 	/**
-	 * takes a loan
+	 * This method takes a loan from the bank, according to the account properties
+	 * the monthly return amount is set.
 	 */
 	protected void loan() {
 		int loan = getDesiredLoan();
@@ -297,14 +366,9 @@ public class AccountOwner extends Person {
 		bankManager.account.addToBalance(loan * subtractAmount);
 		account.setActivity(new ActivityData(ActivityName.GET_LOAN, account.getBalance(), LocalDateTime.now()));
 		bankManager.account
-				.setActivity(new ActivityData(ActivityName.PAY_BILL, loan * subtractAmount, LocalDateTime.now()));
+				.setActivity(new ActivityData(ActivityName.GET_LOAN, loan * subtractAmount, LocalDateTime.now()));
 	}
 
-	/**
-	 * handler function for loan
-	 * 
-	 * @return the desired loan amount by the user.
-	 */
 	private int getDesiredLoan() {
 		System.out.println("Enter desired loan amount:");
 		int loan = ScannerInputs.getIntFromUser();

@@ -1,6 +1,8 @@
 package accounts;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import utils.Menus;
 import utils.ScannerInputs;
@@ -48,7 +50,7 @@ public class BankManager extends AccountOwner {
 	public void actionMenu() {
 		int option = 0;
 		System.out.println("Welcome " + this.getFirstName() + " what would you like to do?");
-		while (option != 8) {
+		while (option != 9) {
 			Menus.managerActionMenu();
 			option = ScannerInputs.scanner.nextInt();
 			ScannerInputs.scanner.nextLine();
@@ -72,9 +74,12 @@ public class BankManager extends AccountOwner {
 				payBill();
 				break;
 			case 7:
-				setAndApproveAccount();
+				loan();
 				break;
 			case 8:
+				setAndApproveAccount();
+				break;
+			case 9:
 				logout();
 				break;
 			default:
@@ -85,8 +90,17 @@ public class BankManager extends AccountOwner {
 
 	@Override
 	protected void produceReport() {
-		// TODO what to change in the bank report? 
-		super.produceReport();
+		if (account.activityLog[0] == null) {
+			System.out.println("No activity to present.");
+			return;
+		}
+
+		LocalDateTime startDate = getDateStratForReport();
+		for (int i = 0; i < account.getLogIndex(); i++) {
+			long diff = ChronoUnit.HOURS.between(startDate, account.activityLog[i].getTimeStamp());
+			if (diff > 0)
+				Menus.printBankActivity(account.getBalance(),account.activityLog[i]);
+		}
 	}
 	
 	

@@ -18,6 +18,7 @@ public class Account {
 	protected double loanMonthlyPayment;
 	protected int loanLeftMonths;
 	protected LocalDateTime loginFailure;
+	protected int loan;
 	
 	public Account(AccountProperties accountProperties, double balance) {
 		this.accountProperties = accountProperties;
@@ -66,6 +67,14 @@ public class Account {
 	public int getLogIndex() {
 		return logIndex;
 	}
+	
+	public double getInterstRate() {
+		return interstRate;
+	}
+
+	public int getLoan() {
+		return loan;
+	}
 
 	protected boolean isWithdrawalAvailble(int amount) {
 		long diff = ChronoUnit.HOURS.between(lastWithdrawal, LocalDateTime.now());
@@ -84,15 +93,18 @@ public class Account {
 		return true;
 
 	}
-
 	
-	protected double calcMonthlyPaymentForLoan(int loan, int numOfMonth) { 
+	protected double calcMonthlyPaymentForLoan(int loan, int numOfMonth) {
+		this.loan = loan;
 		double monthlyAmount = loan / numOfMonth;
 		monthlyAmount += monthlyAmount*interstRate/100;
 		return monthlyAmount;
 	}
 	
-
+	protected double getTotalDebt() {
+		return loanMonthlyPayment*loanLeftMonths;
+	}
+	
 	protected double getLoanMonthlyPayment() {
 		return loanMonthlyPayment;
 	}

@@ -67,6 +67,13 @@ public class Menus {
 
 	}
 
+	public static void printBankActivity(double balance, ActivityData activity) {
+		System.out.println("------------------------------");
+		System.out.println("At date: " + activity.getTimeStamp() + ", the balance was: " + activity.getBalanceChange()
+				+ " the change in the balance was: " + activity.getBalanceChange());
+
+	}
+
 	public static void withdrawalSuccess() {
 		System.out.println("------------------------------");
 		System.out.println("Successfuly withdrawal the money! Enjoy.");
@@ -77,6 +84,12 @@ public class Menus {
 		System.out.println("------------------------------");
 		System.out.println("Choose which bill would you like to pay from the menu.");
 		System.out.println("1. Loan\n" + "2. Phone\n" + "3. Water\n" + "4. Electric\n");
+		System.out.println("------------------------------");
+	}
+
+	public static void printLoanStatus(int loan, double interest, double monthPayment, double curDebt) {
+		System.out.println("Your original loan amount is: " + loan + ", the interest was " + interest
+				+ "\n The monthly payment is: " + monthPayment + ", and the total  debt left is: " + curDebt);
 		System.out.println("------------------------------");
 	}
 

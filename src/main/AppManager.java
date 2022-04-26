@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 import accounts.AccountOwner;
 import accounts.BankManager;
-import tests.TestsObjects;
+//import tests.TestsObjects;
 import utils.Menus;
 import utils.ScannerInputs;
 import utils.UserInput;
@@ -47,7 +47,7 @@ public class AppManager {
 		}
 	}
 	
-//	//made up accounts for testing
+//	//made up accounts for testing (import class also commented out)
 //	protected void openAccount() {
 //		TestsObjects test = new TestsObjects();
 //		for (int i = 0; i < 3; i++) {
@@ -59,20 +59,37 @@ public class AppManager {
 //	}
 
 	protected void openAccount() {
-		String firstName = userInput.getNameFromUser("first");
-		String lastName = userInput.getNameFromUser("last");
-		String phone = userInput.getPhoneFromUser(this);
-		LocalDate birthdate = userInput.getBirthdateFromUser();
-		double income = userInput.getIncomeFromUser();
-		String userName = userInput.getUsernameFromUser(this);
-		String password = userInput.getPassWordFromUser();
+		String userName = userInput.getLoginUserName();
 		
-		currUser = new AccountOwner(firstName, lastName, phone, birthdate, income, userName, password);
-		users[newUserIndex++] = currUser;
-		bankManager.addUserToApprove(currUser);
-		System.out.println("For final regerstation wait for bank manager approval!");
+		if(isUserNameExist(userName)) {
+			System.out.println("User already exists try login.");
+			login();
+		}
+		else {
+			String firstName = userInput.getNameFromUser("first");
+			String lastName = userInput.getNameFromUser("last");
+			String phone = userInput.getPhoneFromUser(this);
+			LocalDate birthdate = userInput.getBirthdateFromUser();
+			double income = userInput.getIncomeFromUser();
+			String password = userInput.getPassWordFromUser();
+			
+			currUser = new AccountOwner(firstName, lastName, phone, birthdate, income, userName, password);
+			users[newUserIndex++] = currUser;
+			bankManager.addUserToApprove(currUser);
+			System.out.println("For final regerstation wait for bank manager approval!");
+		}
+	
 	}
-
+	
+	public boolean isUserNameExist(String str) {
+		for (int i = 0; i < AppManager.getNumOfClients(); i++) {
+			if (str.equals(getUsers()[i].getCredentials().getUserName()))
+				return true;
+		}
+		return false;
+	}
+	
+	
 	public static int getNumOfClients() {
 		return newUserIndex;
 	}
@@ -129,7 +146,7 @@ public class AppManager {
 		String userName = "";
 		while (!userNameValid) {
 			userName = userInput.getLoginUserName();
-			if (userInput.isUserNameExist(this, userName)) {
+			if (isUserNameExist(userName)) {
 				userNameValid = true;
 				if (getAccountByUsername(userName).getAccount() == null) {
 					System.out.println("Your user have not been approved yet, contact bank manager.");

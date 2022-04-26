@@ -93,28 +93,6 @@ public class UserInput {
 		return false;
 	}
 
-	public String getUsernameFromUser(AppManager app) {
-		boolean isValid = false;
-		String input = "";
-		while (!isValid) {
-			System.out.println("Enter a user name: ");
-			input = ScannerInputs.getStringFromUser();
-			if (!isUserNameExist(app, input))
-				isValid = true;
-			if (hasSpaces(input))
-				isValid = false;
-		}
-		return input;
-	}
-
-	public boolean isUserNameExist(AppManager app, String str) {
-		for (int i = 0; i < AppManager.getNumOfClients(); i++) {
-			if (str.equals(app.getUsers()[i].getCredentials().getUserName()))
-				return true;
-		}
-		return false;
-	}
-
 	public String getPassWordFromUser() {
 		boolean hasCharAndNum = false;
 		String input = "";

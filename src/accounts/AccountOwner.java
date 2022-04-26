@@ -53,8 +53,7 @@ public class AccountOwner extends Person {
 		System.out.println("Welcome " + this.getFirstName() + " what would you like to do?");
 		while (option != 8) {
 			Menus.actionMenu();
-			option = ScannerInputs.scanner.nextInt();
-			ScannerInputs.scanner.nextLine();
+			option = ScannerInputs.getIntFromUser();
 			switch (option) {
 			case 1:
 				checkBalance();
@@ -119,6 +118,13 @@ public class AccountOwner extends Person {
 			if (diff > 0)
 				Menus.printActivity(account.activityLog[i]);
 		}
+
+		if (account.getLoanLeftMonths() > 0)
+			Menus.printLoanStatus(account.getLoan(), account.getInterstRate(), account.getLoanMonthlyPayment(),
+					account.getTotalDebt());
+		else
+			System.out.println("No loan taken yet!");
+
 	}
 
 	protected LocalDateTime getDateStratForReport() {
@@ -134,11 +140,19 @@ public class AccountOwner extends Person {
 		if (withdrawal == 0)
 			return;
 
-		bankManager.collectFee(account.getFeeOperation());
+		feeCollection();
 		bankManager.account.addToBalance(withdrawal * subtractAmount);
 		account.addToBalance(withdrawal * subtractAmount);
 		Menus.withdrawalSuccess();
-		account.setActivity(new ActivityData(ActivityName.WITHDRAWL, account.getBalance(), LocalDateTime.now()));
+
+		account.setActivity(new ActivityData(ActivityName.PAY_BILL, account.getBalance(), LocalDateTime.now()));
+		bankManager.account.setActivity(new ActivityData(ActivityName.PAY_BILL,
+				withdrawal * subtractAmount + account.getFeeOperation(), LocalDateTime.now()));
+	}
+
+	protected void feeCollection() {
+		bankManager.collectFee(account.getFeeOperation());
+		account.addToBalance(subtractAmount * account.getFeeOperation());
 	}
 
 	/**
@@ -164,11 +178,14 @@ public class AccountOwner extends Person {
 		if (userRecieveTrans == null)
 			return;
 
-		bankManager.collectFee(account.getFeeOperation());
+		feeCollection();
 		userRecieveTrans.account.addToBalance(transAmount);
 		account.addToBalance(transAmount * subtractAmount + account.getFeeOperation() * subtractAmount);
-		account.setActivity(new ActivityData(ActivityName.TRANSFER, account.getBalance(), LocalDateTime.now()));
 		System.out.println("Transfer Succeeded!");
+
+		account.setActivity(new ActivityData(ActivityName.PAY_BILL, account.getBalance(), LocalDateTime.now()));
+		bankManager.account
+				.setActivity(new ActivityData(ActivityName.TRANSFER, account.getFeeOperation(), LocalDateTime.now()));
 	}
 
 	/**
@@ -218,10 +235,15 @@ public class AccountOwner extends Person {
 		int bill = billAmount();
 		if (bill == 0)
 			return;
-		account.addToBalance(bill * subtractAmount + account.getFeeOperation() * subtractAmount);
-		bankManager.collectFee(account.getFeeOperation());
+
+		feeCollection();
+		account.addToBalance(bill * subtractAmount);
+		bankManager.account.addToBalance(bill * subtractAmount);
 		System.out.println("Bill payed successfuly!");
+
 		account.setActivity(new ActivityData(ActivityName.PAY_BILL, account.getBalance(), LocalDateTime.now()));
+		bankManager.account.setActivity(new ActivityData(ActivityName.PAY_BILL,
+				bill * subtractAmount + account.getFeeOperation(), LocalDateTime.now()));
 	}
 
 	/**
@@ -244,10 +266,16 @@ public class AccountOwner extends Person {
 	 */
 	protected void loanReturn() {
 		double monthlyAmount = account.getLoanMonthlyPayment();
+
+		feeCollection();
 		account.addToBalance(monthlyAmount * subtractAmount);
 		bankManager.account.addToBalance(monthlyAmount);
 		account.setLoanLeftMonths(account.getLoanLeftMonths() - 1);
+		System.out.println("Payed a monthly payment!");
 
+		account.setActivity(new ActivityData(ActivityName.PAY_BILL, account.getBalance(), LocalDateTime.now()));
+		bankManager.account.setActivity(new ActivityData(ActivityName.PAY_BILL,
+				monthlyAmount + account.getFeeOperation(), LocalDateTime.now()));
 	}
 
 	/**
@@ -268,6 +296,8 @@ public class AccountOwner extends Person {
 		account.addToBalance(loan);
 		bankManager.account.addToBalance(loan * subtractAmount);
 		account.setActivity(new ActivityData(ActivityName.GET_LOAN, account.getBalance(), LocalDateTime.now()));
+		bankManager.account
+				.setActivity(new ActivityData(ActivityName.PAY_BILL, loan * subtractAmount, LocalDateTime.now()));
 	}
 
 	/**

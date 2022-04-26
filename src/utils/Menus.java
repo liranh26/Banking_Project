@@ -44,7 +44,9 @@ public class Menus {
 
 	public static void authCodeMessage(int authCode) {
 		System.out.println("Authentication code sent to you, please enter it.");
+		System.out.println("------------------------------");
 		System.out.println("Your code is: " + authCode);
+		System.out.println("------------------------------");
 	}
 
 	public static void depositSuccess() {

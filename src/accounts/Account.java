@@ -86,10 +86,10 @@ public class Account {
 	}
 
 	
-	protected double calcMonthlyPaymentForLoan(int loan, int numOfMonth) {
-		double mounthlyAmount = loan / numOfMonth;
-		mounthlyAmount *=  (interstRate/100);
-		return mounthlyAmount;
+	protected double calcMonthlyPaymentForLoan(int loan, int numOfMonth) { 
+		double monthlyAmount = loan / numOfMonth;
+		monthlyAmount += monthlyAmount*interstRate/100;
+		return monthlyAmount;
 	}
 	
 

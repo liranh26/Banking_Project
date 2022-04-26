@@ -2,10 +2,12 @@ package accounts;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import main.AppManager;
 import utils.Menus;
 import utils.ScannerInputs;
+import utils.UserInput;
 
 public class AccountOwner extends Person {
 	protected double mounthlyIncome;
@@ -73,7 +75,7 @@ public class AccountOwner extends Person {
 				payBill();
 				break;
 			case 7:
-				loan();
+				loan(); // TODO check works
 				break;
 			case 8:
 				logout();
@@ -85,8 +87,8 @@ public class AccountOwner extends Person {
 		}
 	}
 
-	//TODO log activity for all options!!!!!!!!!!!!!!
-	
+	// TODO log activity for all options!!!!!!!!!!!!!!
+
 	protected void checkBalance() {
 		Menus.printBalance(account.getBalance());
 	}
@@ -107,9 +109,26 @@ public class AccountOwner extends Person {
 	}
 
 	protected void produceReport() {
-		for (int i = 0; i < account.getLogIndex(); i++) {
-			Menus.printActivity(account.activityLog[i]);
+
+		if (account.activityLog[0] == null) {
+			System.out.println("No activity to present.");
+			return;
 		}
+
+		LocalDateTime startDate = getDateStratForReport();
+		for (int i = 0; i < account.getLogIndex(); i++) {
+			long diff = ChronoUnit.HOURS.between(startDate, account.activityLog[i].getTimeStamp());
+			if (diff > 0)
+				Menus.printActivity(account.activityLog[i]);
+		}
+	}
+
+	protected LocalDateTime getDateStratForReport() {
+		UserInput userInput = new UserInput();
+		int year = userInput.getCustomInputFromUser(0, 2022, "desired start year");
+		int month = userInput.getCustomInputFromUser(1, 12, "desired start month");
+		int day = userInput.getCustomInputFromUser(1, 31, "desired start day");
+		return LocalDateTime.of(year, month, month, 0, 0);
 	}
 
 	protected void withdrawal() {
@@ -121,8 +140,14 @@ public class AccountOwner extends Person {
 		bankManager.account.addToBalance(withdrawal * subtractAmount);
 		account.addToBalance(withdrawal * subtractAmount);
 		Menus.withdrawalSuccess();
+		account.setActivity(new ActivityData(ActivityName.WITHDRAWL, account.getBalance(), LocalDateTime.now()));
 	}
 
+	/**
+	 * function helper for withdrawal use case.
+	 * 
+	 * @return the desired withdrawal amount.
+	 */
 	protected int withdrawalAmount() {
 		System.out.println("Insert withdrawal amount:");
 		int withdrawal = ScannerInputs.getIntFromUser();
@@ -144,12 +169,17 @@ public class AccountOwner extends Person {
 		bankManager.collectFee(account.getFeeOperation());
 		userRecieveTrans.account.addToBalance(transAmount);
 		account.addToBalance(transAmount * subtractAmount + account.getFeeOperation() * subtractAmount);
-
+		account.setActivity(new ActivityData(ActivityName.TRANSFER, account.getBalance(), LocalDateTime.now()));
 		System.out.println("Transfer Succeeded!");
 	}
 
+	/**
+	 * helper function for transfer use case
+	 * 
+	 * @return a valid desired transfer amount.
+	 */
 	protected int transferAmount() {
-		System.out.println("Insert tranfer amount:");
+		System.out.println("Insert transfer amount:");
 		int transAmount = ScannerInputs.getIntFromUser();
 		if (transAmount > 2000) {
 			System.out.println("Exceeds valid amount!");
@@ -190,10 +220,17 @@ public class AccountOwner extends Person {
 		int bill = billAmount();
 		if (bill == 0)
 			return;
-		account.addToBalance(bill * subtractAmount);
+		account.addToBalance(bill * subtractAmount + account.getFeeOperation() * subtractAmount);
+		bankManager.collectFee(account.getFeeOperation());
 		System.out.println("Bill payed successfuly!");
+		account.setActivity(new ActivityData(ActivityName.PAY_BILL, account.getBalance(), LocalDateTime.now()));
 	}
 
+	/**
+	 * handler function for pay function to pay bills.
+	 * 
+	 * @return the bill amount user would like to pay.
+	 */
 	protected int billAmount() {
 		System.out.println("Enter the amount you would like to pay:");
 		int bill = ScannerInputs.getIntFromUser();
@@ -204,14 +241,20 @@ public class AccountOwner extends Person {
 		return bill;
 	}
 
+	/**
+	 * pays a monthly amount from the loan taken.
+	 */
 	protected void loanReturn() {
-		double mounthlyAmount = account.getLoanMonthlyPayment();
-		account.addToBalance(mounthlyAmount * subtractAmount);
-		bankManager.account.addToBalance(mounthlyAmount);
-
+		double monthlyAmount = account.getLoanMonthlyPayment();
+		account.addToBalance(monthlyAmount * subtractAmount);
+		bankManager.account.addToBalance(monthlyAmount);
 		account.setLoanLeftMonths(account.getLoanLeftMonths() - 1);
+
 	}
 
+	/**
+	 * takes a loan
+	 */
 	protected void loan() {
 		int loan = getDesiredLoan();
 		if (loan == 0)
@@ -221,14 +264,19 @@ public class AccountOwner extends Person {
 		if (numOfMonths == 0)
 			return;
 
-		double mounthlyAmount = account.calcMonthlyPaymentForLoan(loan, numOfMonths);
-		account.setLoanMonthlyPayment(mounthlyAmount);
+		double monthlyAmount = account.calcMonthlyPaymentForLoan(loan, numOfMonths);
+		account.setLoanMonthlyPayment(monthlyAmount);
 		account.setLoanLeftMonths(numOfMonths);
 		account.addToBalance(loan);
 		bankManager.account.addToBalance(loan * subtractAmount);
-
+		account.setActivity(new ActivityData(ActivityName.GET_LOAN, account.getBalance(), LocalDateTime.now()));
 	}
 
+	/**
+	 * handler function for loan
+	 * 
+	 * @return the desired loan amount by the user.
+	 */
 	private int getDesiredLoan() {
 		System.out.println("Enter desired loan amount:");
 		int loan = ScannerInputs.getIntFromUser();

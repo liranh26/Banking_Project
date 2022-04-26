@@ -41,15 +41,15 @@ public class UserInput {
 	}
 
 	public LocalDate getBirthdateFromUser() {
-		// TODO check a leap year and valid day for month
-		int year = getBirthInputFromUser(1900, 2022, "year");
-		int month = getBirthInputFromUser(1, 12, "month");
-		int day = getBirthInputFromUser(1, 31, "day");
+		// TODO validate date -  check a leap year and valid day for month
+		int year = getCustomInputFromUser(1900, 2022, "birth year");
+		int month = getCustomInputFromUser(1, 12, "birth month");
+		int day = getCustomInputFromUser(1, 31, "birth day");
 		return LocalDate.of(year, month, day);
 	}
 
-	protected int getBirthInputFromUser(int minValue, int maxValue, String type) {
-		System.out.println("Please enter your birth " + type + ": ");
+	public int getCustomInputFromUser(int minValue, int maxValue, String type) {
+		System.out.println("Please enter your " + type + ": ");
 		int input = 0;
 		boolean isValid = false;
 		while (!isValid) {
@@ -83,7 +83,7 @@ public class UserInput {
 		return false;
 	}
 
-	private boolean isPhoneExists(AppManager app, String str) {
+	public boolean isPhoneExists(AppManager app, String str) {
 		for (int i = 0; i < AppManager.getNumOfClients(); i++) {
 			if (str.equals(app.getUsers()[i].getPhone())) {
 				System.out.println("Phone number already exists!");
@@ -155,5 +155,22 @@ public class UserInput {
 		}
 		return input;
 	}
+	
+	public String getLoginPhone() {
+		boolean isValid = false;
+		String input = "";
+		System.out.println("Please enter phone number: ");
+		while (!isValid) {
+			input = ScannerInputs.getStringFromUser();
+			if (!hasChars(input) && !hasSpaces(input))
+				isValid = true;
+			else
+				System.out.println("No charachters ans spaces allowed!, try again");
+		}
+		return input;
+	}
+	
+	
+	
 
 }

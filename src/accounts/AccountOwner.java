@@ -28,7 +28,7 @@ public class AccountOwner extends Person {
 	private final int maxTransferAmount = 2000;
 
 	/**
-	 * This constructor uses the Pesron and extends it with the following fields.
+	 * This constructor uses the Pesron class and extends it with the following fields.
 	 * 
 	 * @param firstName - a string with only chars.
 	 * @param lastName  - a string with onlt chars.
@@ -154,7 +154,7 @@ public class AccountOwner extends Person {
 		for (int i = 0; i < account.getLogIndex(); i++) {
 			long diff = ChronoUnit.HOURS.between(startDate, account.activityLog[i].getTimeStamp());
 			if (diff > 0)
-				Menus.printBankActivity(account.getBalance(), account.activityLog[i]);
+				Menus.printActivity(account.activityLog[i]);
 		}
 
 		if (account.getLoanLeftMonths() > 0)

@@ -17,12 +17,11 @@ public enum AccountProperties {
 		this.maxWithdraw = maxWithdraw;
 		this.minFee = minFee;
 		this.minInterstRate = minInterstRate;
-
-
 	}
 
 	/**
 	 * sets the account property according the user income
+	 * 
 	 * @param income user income
 	 * @return type of property for user
 	 */
@@ -33,9 +32,10 @@ public enum AccountProperties {
 			return SILVER;
 		return GOLD;
 	}
-	
+
 	/**
 	 * sets a random interest rate in the valid range.
+	 * 
 	 * @return - the random result for the interest rate.
 	 */
 	protected double setInterstRate() {
@@ -49,6 +49,7 @@ public enum AccountProperties {
 
 	/**
 	 * set a random fee amount in the range.
+	 * 
 	 * @return - the random result for the fee charge.
 	 */
 	protected double setFeeOperation() {

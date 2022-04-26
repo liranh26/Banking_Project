@@ -81,7 +81,7 @@ public class BankManager extends AccountOwner {
 	public void actionMenu() {
 		int option = 0;
 		System.out.println("Welcome " + this.getFirstName() + " what would you like to do?");
-		while (option != 9) {
+		while (option != 8) {
 			Menus.managerActionMenu();
 			option = ScannerInputs.scanner.nextInt();
 			ScannerInputs.scanner.nextLine();
@@ -105,12 +105,9 @@ public class BankManager extends AccountOwner {
 				payBill();
 				break;
 			case 7:
-				loan();
-				break;
-			case 8:
 				setAndApproveAccount();
 				break;
-			case 9:
+			case 8:
 				logout();
 				break;
 			default:

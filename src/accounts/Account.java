@@ -13,8 +13,8 @@ public class Account {
 	private final int recordNumOfActivites = 100;
 	protected double feeOperation;
 	protected double interstRate;
-	private static LocalDateTime lastWithdrawal;
-	private static int dailyWithraw;
+	private LocalDateTime lastWithdrawal;
+	private int dailyWithraw;
 	protected double loanMonthlyPayment;
 	protected int loanLeftMonths;
 	protected LocalDateTime loginFailure;

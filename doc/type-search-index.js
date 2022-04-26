@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"accounts","l":"ActivityData"},{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"main","l":"AppManager"},{"p":"utils","l":"Menus"},{"p":"main","l":"Runner"},{"p":"utils","l":"ScannerInputs"},{"p":"tests","l":"TestsObjects"},{"p":"utils","l":"UserInput"}];updateSearchResults();

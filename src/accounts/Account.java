@@ -68,7 +68,7 @@ public class Account {
 	}
 
 	/**
-	 * This method logs the activity of a user. 
+	 * This method logs the activity of a user.
 	 * 
 	 * @param activity is the action the user did.
 	 */
@@ -149,6 +149,11 @@ public class Account {
 		this.loginFailure = loginFailure;
 	}
 
+	/**
+	 * 
+	 * @return true if difference between now to that last login time the account
+	 *         was locked return
+	 */
 	public boolean isAccountLocked() {
 		// if the login wasn't initialized yet
 		if (getLoginFailure() == null)

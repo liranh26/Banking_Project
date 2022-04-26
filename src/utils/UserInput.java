@@ -41,7 +41,6 @@ public class UserInput {
 	}
 
 	public LocalDate getBirthdateFromUser() {
-		// TODO validate date -  check a leap year and valid day for month
 		int year = getCustomInputFromUser(1900, 2022, "birth year");
 		int month = getCustomInputFromUser(1, 12, "birth month");
 		int day = getCustomInputFromUser(1, 31, "birth day");
@@ -86,7 +85,6 @@ public class UserInput {
 	public boolean isPhoneExists(AppManager app, String str) {
 		for (int i = 0; i < AppManager.getNumOfClients(); i++) {
 			if (str.equals(app.getUsers()[i].getPhone())) {
-				System.out.println("Phone number already exists!");
 				return true;
 			}
 		}
@@ -133,7 +131,7 @@ public class UserInput {
 		}
 		return input;
 	}
-	
+
 	public String getLoginPhone() {
 		boolean isValid = false;
 		String input = "";
@@ -147,8 +145,5 @@ public class UserInput {
 		}
 		return input;
 	}
-	
-	
-	
 
 }

@@ -6,7 +6,7 @@ public class Menus {
 
 	public static void startMenu() {
 		System.out.println("------------------------------");
-		System.out.println("Press 1 - for login,\nPress 2 - for open new account");
+		System.out.println("Press 1 - Login.\nPress 2 - Open new account.");
 		System.out.println("------------------------------");
 	}
 
@@ -69,7 +69,7 @@ public class Menus {
 
 	public static void printBankActivity(double balance, ActivityData activity) {
 		System.out.println("------------------------------");
-		System.out.println("At date: " + activity.getTimeStamp() + ", the balance was: " + activity.getBalanceChange()
+		System.out.println("At date: " + activity.getTimeStamp() + ", the balance was: " + balance 
 				+ " the change in the balance was: " + activity.getBalanceChange());
 
 	}

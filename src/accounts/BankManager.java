@@ -46,7 +46,7 @@ public class BankManager extends AccountOwner {
 
 	/**
 	 * This method adds an account owner to the manager approval  
-	 * @param newUser
+	 * @param newUser new account owner waiting for manager approve.
 	 */
 	public void addUserToApprove(AccountOwner newUser) {
 		usersToApprove[approvalIndex++] = newUser;
@@ -137,6 +137,10 @@ public class BankManager extends AccountOwner {
 				Menus.printBankActivity(account.getBalance(), account.activityLog[i]);
 		}
 	}
+	
+	/**
+	 * overrides the parent method to avoid exceptions when loging for the bank activity
+	 */
 	@Override
 	protected void deposit() {
 		int authCode = ScannerInputs.getAuthNum();
@@ -152,6 +156,9 @@ public class BankManager extends AccountOwner {
 			Menus.depositFail();
 	}
 	
+	/**
+	 * overrides the parent method to avoid exceptions when loging for the bank activity
+	 */
 	@Override
 	protected void withdrawal() {
 		int withdrawal = withdrawalAmount();
@@ -162,6 +169,9 @@ public class BankManager extends AccountOwner {
 		account.setActivity(new ActivityData(ActivityName.WITHDRAWL, account.getBalance(), LocalDateTime.now()));
 	}
 	
+	/**
+	 * overrides the parent method to avoid exceptions when loging for the bank activity
+	 */
 	@Override
 	protected void transfer() {
 		int transAmount = transferAmount();
@@ -170,7 +180,6 @@ public class BankManager extends AccountOwner {
 		AccountOwner userRecieveTrans = phoneNumToTransfer();
 		if (userRecieveTrans == null)
 			return;
-
 		userRecieveTrans.account.addToBalance(transAmount);
 		account.addToBalance(transAmount * subtractAmount);
 		System.out.println("Transfer Succeeded!");
@@ -178,6 +187,9 @@ public class BankManager extends AccountOwner {
 		account.setActivity(new ActivityData(ActivityName.TRANSFER, account.getBalance(), LocalDateTime.now()));
 	}
 	
+	/**
+	 * overrides the parent method to avoid exceptions when loging for the bank activity
+	 */
 	@Override
 	protected void pay() {
 		int bill = billAmount();

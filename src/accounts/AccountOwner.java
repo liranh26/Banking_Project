@@ -333,6 +333,11 @@ public class AccountOwner extends Person {
 	 * updates balance accounts for the bank and the user.
 	 */
 	protected void loanReturn() {
+		if(account.getLoanLeftMonths()==0) {
+			System.out.println("No loan payment exsits!");
+			return;
+		}
+			
 		double monthlyAmount = account.getLoanMonthlyPayment();
 
 		feeCollection();

@@ -21,6 +21,11 @@ public enum AccountProperties {
 
 	}
 
+	/**
+	 * sets the account property according the user income
+	 * @param income user income
+	 * @return type of property for user
+	 */
 	static AccountProperties getAccountType(double income) {
 		if (income < 10000)
 			return BRONZE;
@@ -29,22 +34,30 @@ public enum AccountProperties {
 		return GOLD;
 	}
 	
+	/**
+	 * sets a random interest rate in the valid range.
+	 * @return - the random result for the interest rate.
+	 */
 	protected double setInterstRate() {
 		Random random = new Random();
 		// get a random number between the range of min and max
-		double rand = random.doubles(minInterstRate, maxInterstRate).findFirst().getAsDouble();
+		double interest = random.doubles(minInterstRate, maxInterstRate).findFirst().getAsDouble();
 		// set 2 numbers after the point
-		rand = (Math.round(rand * 100.0) / 100.0);
-		return rand;
+		interest = (Math.round(interest * 100.0) / 100.0);
+		return interest;
 	}
 
+	/**
+	 * set a random fee amount in the range.
+	 * @return - the random result for the fee charge.
+	 */
 	protected double setFeeOperation() {
 		// get a random number between the range of min and max
 		Random random = new Random();
 		// set 2 numbers after the point
-		double rand = random.doubles(minFee, maxFee).findFirst().getAsDouble();
-		rand = (Math.round(rand * 100.0) / 100.0);
-		return rand;
+		double fee = random.doubles(minFee, maxFee).findFirst().getAsDouble();
+		fee = (Math.round(fee * 100.0) / 100.0);
+		return fee;
 	}
 
 }

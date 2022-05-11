@@ -1,2 +1,2 @@
-# firstProject
+# Bank project
 myProject

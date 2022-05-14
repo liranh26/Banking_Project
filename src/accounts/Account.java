@@ -3,6 +3,8 @@ package accounts;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import activity.ActivityData;
+
 public class Account {
 	protected double balance;
 	protected AccountProperties accountProperties;

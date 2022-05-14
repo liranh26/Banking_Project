@@ -1,4 +1,4 @@
-package accounts;
+package activity;
 
 import java.time.LocalDateTime;
 

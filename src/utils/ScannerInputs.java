@@ -31,4 +31,8 @@ public class ScannerInputs {
 		return str;
 	}
 	
+	public static void closeScanner() {
+		scanner.close();
+	}
+	
 }

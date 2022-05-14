@@ -1,6 +1,6 @@
 package utils;
 
-import accounts.ActivityData;
+import activity.ActivityData;
 
 public class Menus {
 
@@ -12,7 +12,7 @@ public class Menus {
 
 	public static void loginMenu() {
 		System.out.println("------------------------------");
-		System.out.println("For login via user name enter 1. \nFor login via phone enter 2.");
+		System.out.println("1 - Login via user name. \n2 - Login via phone. \n3 - Back to main menu.");
 		System.out.println("------------------------------");
 	}
 

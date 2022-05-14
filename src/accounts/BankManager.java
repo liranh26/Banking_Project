@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import activity.ActivityData;
+import activity.ActivityName;
 import utils.Menus;
 import utils.ScannerInputs;
 
@@ -55,7 +57,7 @@ public class BankManager extends AccountOwner {
 	/**
 	 * This method set and approves account according to its income.
 	 */
-	protected void setAndApproveAccount() {
+	public void setAndApproveAccount() {
 		AccountProperties accountProperties;
 		for (int i = 0; i < approvalIndex; i++) {
 			// sets AccountType according to user income
@@ -73,55 +75,55 @@ public class BankManager extends AccountOwner {
 		account.addToBalance(fee);
 	}
 
-	/**
-	 * This method over ride the original method in account owner to add users
-	 * approval action.
-	 */
-	@Override
-	public void actionMenu() {
-		int option = 0;
-		System.out.println("Welcome " + this.getFirstName() + " what would you like to do?");
-		while (option != 8) {
-			Menus.managerActionMenu();
-			option = ScannerInputs.scanner.nextInt();
-			ScannerInputs.scanner.nextLine();
-			switch (option) {
-			case 1:
-				checkBalance();
-				break;
-			case 2:
-				produceReport();
-				break;
-			case 3:
-				deposit();
-				break;
-			case 4:
-				withdrawal();
-				break;
-			case 5:
-				transfer();
-				break;
-			case 6:
-				payBill();
-				break;
-			case 7:
-				setAndApproveAccount();
-				break;
-			case 8:
-				logout();
-				break;
-			default:
-				Menus.defaultMessage();
-			}
-		}
-	}
+//	/**
+//	 * This method over ride the original method in account owner to add users
+//	 * approval action.
+//	 */
+//	@Override
+//	public void actionMenu() {
+//		int option = 0;
+//		System.out.println("Welcome " + this.getFirstName() + " what would you like to do?");
+//		while (option != 8) {
+//			Menus.managerActionMenu();
+//			option = ScannerInputs.scanner.nextInt();
+//			ScannerInputs.scanner.nextLine();
+//			switch (option) {
+//			case 1:
+//				checkBalance();
+//				break;
+//			case 2:
+//				produceReport();
+//				break;
+//			case 3:
+//				deposit();
+//				break;
+//			case 4:
+//				withdrawal();
+//				break;
+//			case 5:
+//				transfer();
+//				break;
+//			case 6:
+//				payBill();
+//				break;
+//			case 7:
+//				setAndApproveAccount();
+//				break;
+//			case 8:
+//				logout();
+//				break;
+//			default:
+//				Menus.defaultMessage();
+//			}
+//		}
+//	}
 
 	/**
 	 * This method over ride the account owner method for producing a custom report.
 	 * It prints the bank balance and the changes in the balance account.
 	 */
 	@Override
-	protected void produceReport() {
+	public void produceReport() {
 		if (account.activityLog[0] == null) {
 			System.out.println("No activity to present.");
 			return;
@@ -139,7 +141,7 @@ public class BankManager extends AccountOwner {
 	 * overrides the parent method to avoid exceptions when loging for the bank activity
 	 */
 	@Override
-	protected void deposit() {
+	public void deposit() {
 		int authCode = ScannerInputs.getAuthNum();
 		Menus.authCodeMessage(authCode);
 		int input = ScannerInputs.getIntFromUser();
@@ -157,7 +159,7 @@ public class BankManager extends AccountOwner {
 	 * overrides the parent method to avoid exceptions when loging for the bank activity
 	 */
 	@Override
-	protected void withdrawal() {
+	public void withdrawal() {
 		int withdrawal = withdrawalAmount();
 		if (withdrawal == 0)
 			return;
@@ -170,7 +172,7 @@ public class BankManager extends AccountOwner {
 	 * overrides the parent method to avoid exceptions when loging for the bank activity
 	 */
 	@Override
-	protected void transfer() {
+	public void transfer() {
 		int transAmount = transferAmount();
 		if (transAmount == 0)
 			return;
@@ -197,5 +199,6 @@ public class BankManager extends AccountOwner {
 		System.out.println("Bill payed successfuly!");
 		account.setActivity(new ActivityData(ActivityName.PAY_BILL, account.getBalance(), LocalDateTime.now()));
 	}
+	
 	
 }

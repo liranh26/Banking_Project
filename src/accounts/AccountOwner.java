@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import activity.ActivityData;
+import activity.ActivityName;
 import main.AppManager;
 import utils.Menus;
 import utils.ScannerInputs;
@@ -72,49 +74,49 @@ public class AccountOwner extends Person {
 		this.bankManager = bankManager;
 	}
 
-	/**
-	 * This method prints a menu with available actions for account owner. it asks
-	 * for an input from a the user to choose the desired action to do.
-	 */
-	public void actionMenu() {
-		int option = 0;
-		System.out.println("Welcome " + this.getFirstName() + " what would you like to do?");
-		while (option != 8) {
-			Menus.actionMenu();
-			option = ScannerInputs.getIntFromUser();
-			switch (option) {
-			case 1:
-				checkBalance();
-				break;
-			case 2:
-				produceReport();
-				break;
-			case 3:
-				deposit();
-				break;
-			case 4:
-				withdrawal();
-				break;
-			case 5:
-				transfer();
-				break;
-			case 6:
-				payBill();
-				break;
-			case 7:
-				loan();
-				break;
-			case 8:
-				logout();
-				break;
-			default:
-				Menus.defaultMessage();
+//	/**
+//	 * This method prints a menu with available actions for account owner. it asks
+//	 * for an input from a the user to choose the desired action to do.
+//	 */
+//	public void actionMenu() {
+//		int option = 0;
+//		System.out.println("Welcome " + this.getFirstName() + " what would you like to do?");
+//		while (option != 8) {
+//			Menus.actionMenu();
+//			option = ScannerInputs.getIntFromUser();
+//			switch (option) {
+//			case 1:
+//				checkBalance();
+//				break;
+//			case 2:
+//				produceReport();
+//				break;
+//			case 3:
+//				deposit();
+//				break;
+//			case 4:
+//				withdrawal();
+//				break;
+//			case 5:
+//				transfer();
+//				break;
+//			case 6:
+//				payBill();
+//				break;
+//			case 7:
+//				loan();
+//				break;
+//			case 8:
+//				logout();
+//				break;
+//			default:
+//				Menus.defaultMessage();
+//
+//			}
+//		}
+//	}
 
-			}
-		}
-	}
-
-	protected void checkBalance() {
+	public void checkBalance() {
 		Menus.printBalance(account.getBalance());
 	}
 
@@ -123,7 +125,7 @@ public class AccountOwner extends Person {
 	 * an authentication code for user if it matches it sets the amount input by the
 	 * user.
 	 */
-	protected void deposit() {
+	public void deposit() {
 		int authCode = ScannerInputs.getAuthNum();
 		Menus.authCodeMessage(authCode);
 		int input = ScannerInputs.getIntFromUser();
@@ -142,7 +144,7 @@ public class AccountOwner extends Person {
 	 * This method produce a report with the activity of the account from a specific
 	 * day entered by the user to now.
 	 */
-	protected void produceReport() {
+	public void produceReport() {
 
 		if (account.activityLog[0] == null) {
 			System.out.println("No activity to present.");
@@ -178,7 +180,7 @@ public class AccountOwner extends Person {
 	 * exceeds the daily limit or the max amount for the account. After the action
 	 * the method update the balance of the account and the bank.
 	 */
-	protected void withdrawal() {
+	public void withdrawal() {
 		int withdrawal = withdrawalAmount();
 		if (withdrawal == 0)
 			return;
@@ -222,7 +224,7 @@ public class AccountOwner extends Person {
 	 * string that represents the account owner to receive the transfer. When finish
 	 * it updates the balance account of the bank and users and logs the action.
 	 */
-	protected void transfer() {
+	public void transfer() {
 		int transAmount = transferAmount();
 		if (transAmount == 0)
 			return;
@@ -275,7 +277,7 @@ public class AccountOwner extends Person {
 	 * This method prints menu of types of bills available to pay, and asks the user
 	 * to choose desired action.
 	 */
-	protected void payBill() {
+	public void payBill() {
 		Menus.billMenu();
 		int option = ScannerInputs.getIntFromUser();
 		switch (option) {
@@ -355,7 +357,7 @@ public class AccountOwner extends Person {
 	 * This method takes a loan from the bank, according to the account properties
 	 * the monthly return amount is set.
 	 */
-	protected void loan() {
+	public void loan() {
 		int loan = getDesiredLoan();
 		if (loan == 0)
 			return;
@@ -394,7 +396,7 @@ public class AccountOwner extends Person {
 		return numOfMonths;
 	}
 
-	protected void logout() {
+	public void logout() {
 		System.out.println("GoodBye!");
 	}
 

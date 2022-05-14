@@ -59,6 +59,8 @@ public class AppManager {
 				Menus.defaultMessage();
 			}
 		}
+		
+		ScannerInputs.scanner.close();
 	}
 
 	/**
@@ -120,9 +122,16 @@ public class AppManager {
 		case 2:
 			loginViaPhone();
 			break;
+		case 3:
+			backToMenu();
+			break;
 		default:
 			Menus.defaultMessage();
 		}
+	}
+
+	private void backToMenu() {
+		System.out.println("Returning back to main menu.");
 	}
 
 	/**
@@ -149,7 +158,7 @@ public class AppManager {
 		System.out.println("Login succesed!");
 		currUser = getAccountByUsername(userName);
 
-		currUser.actionMenu();
+		actionMenu();
 		currUser = null;
 	}
 
@@ -255,7 +264,7 @@ public class AppManager {
 		System.out.println("Login succesed!");
 		currUser = getAccountByPhone(phone);
 
-		currUser.actionMenu();
+		actionMenu();
 		currUser = null;
 
 	}
@@ -336,4 +345,60 @@ public class AppManager {
 		return users;
 	}
 
+	
+	/**
+	 * This method prints a menu with available actions for account owner. it asks
+	 * for an input from a the user to choose the desired action to do.
+	 */
+	public void actionMenu() {
+		int option = 0;
+		System.out.println("Welcome " + currUser.getFirstName() + " what would you like to do?");
+		while (option != 8) {
+			
+			printMenuForUser(currUser==bankManager);
+			option = ScannerInputs.getIntFromUser();
+			
+			switch (option) {
+			case 1:
+				currUser.checkBalance();  //public
+				break;
+			case 2:
+				currUser.produceReport();  //public
+				break;
+			case 3:
+				currUser.deposit();  //public
+				break;
+			case 4:
+				currUser.withdrawal();  //public
+				break;
+			case 5:
+				currUser.transfer(); //public
+				break;
+			case 6:
+				currUser.payBill();  //public
+				break;
+			case 7:
+				if(currUser == bankManager) 
+					bankManager.setAndApproveAccount();		//how to set it to private ??? another package..			
+				else
+					currUser.loan();  //public
+				break;
+			case 8:
+				currUser.logout(); //public
+				break;			
+			default:
+				Menus.defaultMessage();
+
+			}
+		}
+	}
+	
+	private void printMenuForUser(boolean bankManager) {
+		if(!bankManager)
+			Menus.actionMenu();
+		else
+			Menus.managerActionMenu();
+	}
+	
+	
 }

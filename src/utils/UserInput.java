@@ -3,6 +3,7 @@ package utils;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
+import accounts.AccountOwner;
 import main.AppManager;
 
 public class UserInput {
@@ -85,11 +86,18 @@ public class UserInput {
 	}
 
 	public boolean isPhoneExists(AppManager app, String str) {
-		for (int i = 0; i < AppManager.getNumOfClients(); i++) {
-			if (str.equals(app.getUsers()[i].getPhone())) {
+
+		for (AccountOwner accountOwner : app.getUsers()) {
+			if(str.equals(accountOwner.getPhone()))
 				return true;
-			}
 		}
+		
+//		for (int i = 0; i < AppManager.getNumOfClients(); i++) {
+//			if (str.equals(app.getUsers()[i].getPhone())) {
+//				return true;
+//			}
+//		}
+		
 		return false;
 	}
 

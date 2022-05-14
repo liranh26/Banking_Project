@@ -2,6 +2,7 @@ package main;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import accounts.AccountOwner;
 import accounts.BankManager;
@@ -18,9 +19,10 @@ import utils.UserInput;
  */
 public class AppManager {
 
-	private final int numberOfUser = 100;
+//	private final int numberOfUser = 100;
 	protected AccountOwner currUser;
-	protected static AccountOwner[] users;
+//	protected static AccountOwner[] users;
+	protected static ArrayList<AccountOwner> users;
 	protected static int newUserIndex = 0;
 	protected BankManager bankManager;
 	protected UserInput userInput;
@@ -30,9 +32,10 @@ public class AppManager {
 	 * users to sign, and a userInput which recieves inputs from the users.
 	 */
 	public AppManager() {
-		users = new AccountOwner[numberOfUser];
+		users = new ArrayList<AccountOwner>();
 		bankManager = new BankManager();
-		users[newUserIndex++] = bankManager;
+		users.add(bankManager);
+//		users[newUserIndex++] = bankManager;
 		userInput = new UserInput();
 		bankManager.addUserToApprove(new TestAccounts().demoAccounts());
 	}
@@ -83,7 +86,8 @@ public class AppManager {
 			String password = userInput.getPassWordFromUser();
 
 			currUser = new AccountOwner(firstName, lastName, phone, birthdate, income, userName, password);
-			users[newUserIndex++] = currUser;
+//			users[newUserIndex++] = currUser;
+			users.add(currUser);
 			bankManager.addUserToApprove(currUser);
 			System.out.println("For final regerstation wait for bank manager approval!");
 		}
@@ -98,10 +102,16 @@ public class AppManager {
 	 * @return true if it exists, false if not.
 	 */
 	public boolean isUserNameExist(String userName) {
-		for (int i = 0; i < AppManager.getNumOfClients(); i++) {
-			if (userName.equals(getUsers()[i].getCredentials().getUserName()))
+		
+		for (AccountOwner accountOwner : users) {
+			if(userName.equals(accountOwner.getCredentials().getUserName()))
 				return true;
 		}
+		
+//		for (int i = 0; i < AppManager.getNumOfClients(); i++) {
+//			if (userName.equals(getUsers()[i].getCredentials().getUserName()))
+//				return true;
+//		}
 		return false;
 	}
 
@@ -315,10 +325,16 @@ public class AppManager {
 	 *         in case there isn't.
 	 */
 	private AccountOwner getAccountByUsername(String userName) {
-		for (int i = 0; i < getNumOfClients(); i++) {
-			if (userName.equals(users[i].getCredentials().getUserName()))
-				return users[i];
+		for (AccountOwner accountOwner : users) {
+			if(userName.equals(accountOwner.getCredentials().getUserName()))
+				return accountOwner;
 		}
+		
+//		for (int i = 0; i < getNumOfClients(); i++) {
+//			if (userName.equals(users[i].getCredentials().getUserName()))
+//				return users[i];
+//		}
+		
 		return null;
 	}
 
@@ -331,10 +347,16 @@ public class AppManager {
 	 *         in case there isn't.
 	 */
 	public static AccountOwner getAccountByPhone(String phone) {
-		for (int i = 0; i < getNumOfClients(); i++) {
-			if (phone.equals(users[i].getPhone()))
-				return users[i];
+		
+		for (AccountOwner accountOwner : users) {
+			if(phone.equals(accountOwner.getPhone()))
+				return accountOwner;
 		}
+		
+//		for (int i = 0; i < getNumOfClients(); i++) {
+//			if (phone.equals(users.get(i).getPhone()))
+//				return users.get(i);
+//		}
 		return null;
 	}
 
@@ -342,7 +364,7 @@ public class AppManager {
 	 * 
 	 * @return users - the database that holds the accounts.
 	 */
-	public AccountOwner[] getUsers() {
+	public ArrayList<AccountOwner> getUsers() {
 		return users;
 	}
 

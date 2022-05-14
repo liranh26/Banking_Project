@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 import accounts.AccountOwner;
 import accounts.BankManager;
-
+import tests.TestAccounts;
 import utils.Menus;
 import utils.ScannerInputs;
 import utils.UserInput;
@@ -34,6 +34,7 @@ public class AppManager {
 		bankManager = new BankManager();
 		users[newUserIndex++] = bankManager;
 		userInput = new UserInput();
+		bankManager.addUserToApprove(new TestAccounts().demoAccounts());
 	}
 
 	/**

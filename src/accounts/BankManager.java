@@ -3,6 +3,7 @@ package accounts;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 
 import activity.ActivityData;
 import activity.ActivityName;
@@ -10,8 +11,9 @@ import utils.Menus;
 import utils.ScannerInputs;
 
 public class BankManager extends AccountOwner {
-	protected AccountOwner[] usersToApprove;
-	private static int approvalIndex;
+//	protected AccountOwner[] usersToApprove;
+	protected ArrayList<AccountOwner> usersToApprove;
+//	private static int approvalIndex;
 	protected final int subtractAmount = -1;
 
 	/**
@@ -40,8 +42,8 @@ public class BankManager extends AccountOwner {
 	public BankManager(String firstName, String lastName, String phone, LocalDate birthdate, double income,
 			String userName, String password) {
 		super(firstName, lastName, phone, birthdate, income, userName, password);
-		usersToApprove = new AccountOwner[100];
-		approvalIndex = 0;
+		usersToApprove = new ArrayList<AccountOwner>();
+//		approvalIndex = 0;
 		setAccount(new Account(AccountProperties.TITANIUM, 0));
 		account.setBalance(1000000);
 	}
@@ -51,73 +53,52 @@ public class BankManager extends AccountOwner {
 	 * @param newUser new account owner waiting for manager approve.
 	 */
 	public void addUserToApprove(AccountOwner newUser) {
-		usersToApprove[approvalIndex++] = newUser;
+//		usersToApprove[approvalIndex++] = newUser;
+		usersToApprove.add(newUser);
 	}
 
+	
+	public void addUserToApprove( ArrayList<AccountOwner> newUser) {
+		usersToApprove.addAll(newUser);
+	}
+	
+	
+	public void doForAcc(AccountOwner acc) {
+		
+	}
+	
 	/**
 	 * This method set and approves account according to its income.
 	 */
 	public void setAndApproveAccount() {
-		AccountProperties accountProperties;
-		for (int i = 0; i < approvalIndex; i++) {
-			// sets AccountType according to user income
-			accountProperties = AccountProperties.getAccountType(usersToApprove[i].getMounthlyIncome());
-			usersToApprove[i].account = new Account(accountProperties, 0);
-			usersToApprove[i].account.setFeeOperation(accountProperties.setFeeOperation());
-			usersToApprove[i].account.setInterstRate(accountProperties.setInterstRate());
+		
+		usersToApprove.stream().forEach(acc -> {
+			AccountProperties tmpAccProperties = AccountProperties.getAccountType(acc.getMounthlyIncome());
+			acc.account = new Account(tmpAccProperties, 0);
+			acc.account.setFeeOperation(tmpAccProperties.setFeeOperation());
+			acc.account.setInterstRate(tmpAccProperties.setInterstRate());
 			System.out.println("New account added!");
-			usersToApprove[i].setBankManager(this);
-		}
-		approvalIndex = 0;
+			acc.setBankManager(this);
+		}) ;
+		usersToApprove.removeAll(usersToApprove);
+//		AccountProperties tmpAccProperties;
+//		for (int i = 0; i < usersToApprove.size(); i++) {
+//			// sets AccountType according to user income
+//			tmpAccProperties = AccountProperties.getAccountType(usersToApprove.get(i).getMounthlyIncome());
+//			usersToApprove.get(i).account = new Account(tmpAccProperties, 0);
+//			usersToApprove.get(i).account.setFeeOperation(tmpAccProperties.setFeeOperation());
+//			usersToApprove.get(i).account.setInterstRate(tmpAccProperties.setInterstRate());
+//			System.out.println("New account added!");
+//			usersToApprove.get(i).setBankManager(this);
+//		}
+//		approvalIndex = 0;
 	}
 
 	protected void collectFee(double fee) {
 		account.addToBalance(fee);
 	}
 
-//	/**
-//	 * This method over ride the original method in account owner to add users
-//	 * approval action.
-//	 */
-//	@Override
-//	public void actionMenu() {
-//		int option = 0;
-//		System.out.println("Welcome " + this.getFirstName() + " what would you like to do?");
-//		while (option != 8) {
-//			Menus.managerActionMenu();
-//			option = ScannerInputs.scanner.nextInt();
-//			ScannerInputs.scanner.nextLine();
-//			switch (option) {
-//			case 1:
-//				checkBalance();
-//				break;
-//			case 2:
-//				produceReport();
-//				break;
-//			case 3:
-//				deposit();
-//				break;
-//			case 4:
-//				withdrawal();
-//				break;
-//			case 5:
-//				transfer();
-//				break;
-//			case 6:
-//				payBill();
-//				break;
-//			case 7:
-//				setAndApproveAccount();
-//				break;
-//			case 8:
-//				logout();
-//				break;
-//			default:
-//				Menus.defaultMessage();
-//			}
-//		}
-//	}
-
+	
 	/**
 	 * This method over ride the account owner method for producing a custom report.
 	 * It prints the bank balance and the changes in the balance account.

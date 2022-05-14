@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -26,8 +27,16 @@ public class ScannerInputs {
 	}
 	
 	public static String getStringFromUser() {
-		String str = ScannerInputs.scanner.next();
-		ScannerInputs.scanner.nextLine();
+		String str ="";
+		try {
+		 str = ScannerInputs.scanner.next();
+		 ScannerInputs.scanner.nextLine();
+		}
+		catch(NoSuchElementException e) {
+			System.out.println(e);
+		}catch(IllegalStateException e){
+			System.out.println(e);
+		}
 		return str;
 	}
 	

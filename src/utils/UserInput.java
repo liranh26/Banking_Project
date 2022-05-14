@@ -1,6 +1,7 @@
 package utils;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 
 import main.AppManager;
 
@@ -43,7 +44,8 @@ public class UserInput {
 	public LocalDate getBirthdateFromUser() {
 		int year = getCustomInputFromUser(1900, 2022, "birth year");
 		int month = getCustomInputFromUser(1, 12, "birth month");
-		int day = getCustomInputFromUser(1, 31, "birth day");
+		int day = getCustomInputFromUser(1, YearMonth.of(year, month).lengthOfMonth(), "birth day");
+			
 		return LocalDate.of(year, month, day);
 	}
 

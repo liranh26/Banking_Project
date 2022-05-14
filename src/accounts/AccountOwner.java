@@ -74,47 +74,6 @@ public class AccountOwner extends Person {
 		this.bankManager = bankManager;
 	}
 
-//	/**
-//	 * This method prints a menu with available actions for account owner. it asks
-//	 * for an input from a the user to choose the desired action to do.
-//	 */
-//	public void actionMenu() {
-//		int option = 0;
-//		System.out.println("Welcome " + this.getFirstName() + " what would you like to do?");
-//		while (option != 8) {
-//			Menus.actionMenu();
-//			option = ScannerInputs.getIntFromUser();
-//			switch (option) {
-//			case 1:
-//				checkBalance();
-//				break;
-//			case 2:
-//				produceReport();
-//				break;
-//			case 3:
-//				deposit();
-//				break;
-//			case 4:
-//				withdrawal();
-//				break;
-//			case 5:
-//				transfer();
-//				break;
-//			case 6:
-//				payBill();
-//				break;
-//			case 7:
-//				loan();
-//				break;
-//			case 8:
-//				logout();
-//				break;
-//			default:
-//				Menus.defaultMessage();
-//
-//			}
-//		}
-//	}
 
 	public void checkBalance() {
 		Menus.printBalance(account.getBalance());
